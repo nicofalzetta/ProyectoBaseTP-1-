@@ -25,7 +25,9 @@ public class Juego extends InterfaceJuego
 		this.entorno = new Entorno(this, "Al Rescate de los Gnomos", 800, 600);
 		// Inicializar lo que haga falta para el juego
 		Image ImagenIsla = Herramientas.cargarImagen("imagenes/isla.png");
+		
 		this.isla = new Isla(ImagenIsla,350,470,0,0.32, 0);
+		
 		this.barra = new Barra(350,500,200,50,2);
 
 		// Inicia el juego!
