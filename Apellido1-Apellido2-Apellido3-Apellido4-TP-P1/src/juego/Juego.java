@@ -16,7 +16,7 @@ public class Juego extends InterfaceJuego
 	
 	// Variables y métodos propios de cada grupo
 	private Isla[] islas;
-	private Barra barra;
+	private Barra[] barras;
 	private Casa casa;
 	private Paisaje paisaje;
 	// ...
@@ -34,7 +34,30 @@ public class Juego extends InterfaceJuego
 		this.paisaje = new Paisaje(paisaje,350,350,0,0.22);
 		
 		//Casa sobre las islas:
-		this.casa = new Casa(casa,400,74,0,0.02);
+		this.casa = new Casa(casa,400,60,0,0.02,0.0);
+		
+		this.barras = new Barra[15];
+		//Primera Fila:
+		this.barras[0] = new Barra(100,530,132,21, 0);
+		this.barras[1] = new Barra(250,530,132,21, 0);
+		this.barras[2] = new Barra(400,530,132,21, 0);
+		this.barras[3] = new Barra(550,530,132,21, 0);
+		this.barras[4] = new Barra(700,530,132,21, 0);
+		//Segunda Fila:
+		this.barras[5] = new Barra(150,430,143,24, 0);
+		this.barras[6] = new Barra(320,430,143,24, 0);
+		this.barras[7] = new Barra(490,430,143,24, 0);
+		this.barras[8] = new Barra(660,430,143,24, 0);
+		//Tercera Fila:
+		this.barras[9]  = new Barra(200,330,150,26, 0);
+		this.barras[10] = new Barra(400,330,150,26, 0);
+		this.barras[11] = new Barra(600,330,150,26, 0);
+		//Cuarta Fila:
+		this.barras[12] = new Barra(300,200,150,26, 0);
+		this.barras[13] = new Barra(500,200,150,26, 0);
+		//Quinta Fila:
+		this.barras[14] = new Barra(400,100,150,26, 0);
+		
 		
 		//Islas:
 		this.islas = new Isla[20];
@@ -54,12 +77,11 @@ public class Juego extends InterfaceJuego
 		this.islas[10] = new Isla(ImagenIsla,400,330,0,0.22, 0);
 		this.islas[11] = new Isla(ImagenIsla,600,330,0,0.22, 0);
 		//Cuarta Fila:
-		this.islas[12] = new Isla(ImagenIsla,300,200,0,0.23, 0);
-		this.islas[13] = new Isla(ImagenIsla,500,200,0,0.23, 0);
+		this.islas[12] = new Isla(ImagenIsla,300,200,0,0.23, 0.0);
+		this.islas[13] = new Isla(ImagenIsla,500,200,0,0.23, 0.0);
 		//Quinta Fila:
-		this.islas[14] = new Isla(ImagenIsla,400,100,0,0.21, 0);
+		this.islas[14] = new Isla(ImagenIsla,400,100,0,0.22, 0.0);
 		
-		this.barra = new Barra(350,500,200,50,2);
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -95,24 +117,53 @@ public class Juego extends InterfaceJuego
 		*	this.barra.moverIzquierda();
 		*}
 		*/	
-		
 		//Imagen de Fondo:
-		this.paisaje.dibujar(this.entorno);
+				this.paisaje.dibujar(this.entorno);
 		
+	    //Movimiento de la barra:
+		
+		//barras Inferirores
+		for(int i = 0; i < this.barras.length-3; i++) {
+		    Barra b = this.barras[i];
+			if(b != null) { // Reviso que la referencia al objeto no sea NULL
+				b.dibujar(this.entorno);
+			}
+		}	
+		//barras Superiores:
+		
+		for(int i = 12; i < this.barras.length; i++) {
+		    Barra b = this.barras[i];
+			if(b != null) { // Reviso que la referencia al objeto no sea NULL
+				b.dibujar(this.entorno);
+				b.mover();
+				
+				if(b.getX() - b.getAncho() < 100) {
+					b.rebotarderecha();
+				}
+				if(b.getX() - b.getAncho()  > 700) {
+					b.rebotarizquierda();
+				}
+				
+			}
+		
+		}
 		//Dibuja la Casa de los Gnomos:
-		this.casa.dibujar(this.entorno);
+		this.casa.dibujar(this.entorno);	
+				
 		
 		
-		//Movimiento de la Isla:
-		/*
+		//Dibujo y Movimiento de la Isla:
+		
+		//Islas Inferirores
 		for(int i = 0; i < this.islas.length-3; i++) {
 		    Isla p = this.islas[i];
 			if(p != null) { // Reviso que la referencia al objeto no sea NULL
 				p.dibujar(this.entorno);
 			}
-		}*/	
+		}	
+		//Islas Superiores:
 		
-		for(int i = 0; i < this.islas.length; i++) {
+		for(int i = 12; i < this.islas.length; i++) {
 		    Isla p = this.islas[i];
 			if(p != null) { // Reviso que la referencia al objeto no sea NULL
 				p.dibujar(this.entorno);
@@ -128,14 +179,33 @@ public class Juego extends InterfaceJuego
 			}
 		}
 		
+		//Movimiento de las casa
+		Casa c = this.casa;
+		if(c != null) { // Reviso que la referencia al objeto no sea NULL
+			c.dibujar(this.entorno);
+			c.mover();
+				
+			if(c.getX() - c.getEscala() < 100) {
+					c.rebotarderecha();
+			}
+			if(c.getX() - c.getEscala()  > 700) {
+					c.rebotarizquierda();
+			}
+				
+		  }	
+	}	
+		/*
 		//Revisamos que tecla esta presionada
 		// Si se presiona la 'p' hacemos el movimiento inicial
 		if(this.entorno.sePresiono('p')) {
+			this.casa.iniciar(4);
 			for(Isla p: this.islas) {
-				p.iniciar(4);	
+				p.iniciar(4);
 			}
+		
+			
 		}
-				
+		*/		
 	
 /*
 		//Movimiento de la barra:
@@ -154,7 +224,6 @@ public class Juego extends InterfaceJuego
 		
 	  
 
-	}
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args)

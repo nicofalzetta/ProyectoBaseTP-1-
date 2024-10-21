@@ -9,9 +9,9 @@ public class Isla {
 	private double y;
 	private double angulo;
 	private double escala;
-	private int velocidad;
+	private double velocidad;
 
-	public Isla(Image imagen, double x, double y, double angulo, double escala, int velocidad) {
+	public Isla(Image imagen, double x, double y, double angulo, double escala, double velocidad) {
 		this.imagen = imagen;
 		this.x = x;
 		this.y = y;
@@ -29,7 +29,7 @@ public class Isla {
 	public void rebotarizquierda() {
 		this.velocidad = this.velocidad * (-1);
 	}
-	public void iniciar(int velocidad) {
+	public void iniciar(double velocidad) {
 		this.velocidad = velocidad;
 	}
 		
@@ -53,7 +53,7 @@ public class Isla {
 		return escala;
 	}
 
-	public int getVelocidad() {
+	public double getVelocidad() {
 		return velocidad;
 	}
 }
