@@ -1,11 +1,11 @@
 package juego;
 
 
-
-
 import java.awt.Color;
 import java.awt.Image;
 import entorno.Entorno;
+import java.util.List;
+import java.util.ArrayList;
 import entorno.Herramientas;
 import entorno.InterfaceJuego;
 
@@ -19,6 +19,7 @@ public class Juego extends InterfaceJuego
 	private Barra[] barras;
 	private Casa casa;
 	private Paisaje paisaje;
+	private List<Gnomo> gnomos;
 	// ...
 	
 	Juego()
@@ -29,6 +30,7 @@ public class Juego extends InterfaceJuego
 		Image ImagenIsla = Herramientas.cargarImagen("imagenes/isla.png");
 		Image casa = Herramientas.cargarImagen("Imagenes/casa.png");
 		Image paisaje = Herramientas.cargarImagen("Imagenes/paisaje.jpg");
+		Image Gnomo = Herramientas.cargarImagen("imagenes/gnomo.png");
 		
 		//Paisaje de Fondo:
 		this.paisaje = new Paisaje(paisaje,350,350,0,0.22);
@@ -81,6 +83,16 @@ public class Juego extends InterfaceJuego
 		this.islas[13] = new Isla(ImagenIsla,500,200,0,0.23, 0.0);
 		//Quinta Fila:
 		this.islas[14] = new Isla(ImagenIsla,400,100,0,0.22, 0.0);
+		
+		
+		//Inicializacion de Gnomo
+		this.gnomos = new ArrayList<>();
+		int numeroDeGnomos = (int) (Math.random() * 3) + 2;
+		for(int i = 0; i < numeroDeGnomos; i++) {
+			Gnomo gnomo = new Gnomo(Gnomo,400,50,0.04);
+			this.gnomos.add(gnomo);
+		}
+		
 		
 
 		// Inicia el juego!
@@ -178,6 +190,14 @@ public class Juego extends InterfaceJuego
 				
 			}
 		}
+		
+		//Movimiento y dibujo de los gnomos
+		for (Gnomo gnomo : gnomos) {
+			gnomo.dibujar(this.entorno);
+			gnomo.mover(this.barras);
+		}
+		
+		
 		
 		//Movimiento de las casa
 		Casa c = this.casa;
