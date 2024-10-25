@@ -11,6 +11,7 @@ public class Barra {
 	private int ancho;
 	private int alto;
 	private int velocidad;
+
 	
 	public Barra(int x, int y, int ancho, int alto, int velocidad){
 		this.x = x;

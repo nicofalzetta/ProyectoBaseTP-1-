@@ -1,7 +1,6 @@
 package juego;
 
 
-import java.awt.Color;
 import java.awt.Image;
 import entorno.Entorno;
 import java.util.List;
@@ -19,6 +18,7 @@ public class Juego extends InterfaceJuego
 	private Barra[] barras;
 	private Casa casa;
 	private Paisaje paisaje;
+	private Pep pep;
 	private List<Gnomo> gnomos;
 	// ...
 	
@@ -31,6 +31,7 @@ public class Juego extends InterfaceJuego
 		Image casa = Herramientas.cargarImagen("Imagenes/casa.png");
 		Image paisaje = Herramientas.cargarImagen("Imagenes/paisaje.jpg");
 		Image Gnomo = Herramientas.cargarImagen("imagenes/gnomo.png");
+		Image Pep = Herramientas.cargarImagen("Imagenes/Pep.png");
 		
 		//Paisaje de Fondo:
 		this.paisaje = new Paisaje(paisaje,350,350,0,0.22);
@@ -93,7 +94,8 @@ public class Juego extends InterfaceJuego
 			this.gnomos.add(gnomo);
 		}
 		
-		
+		//Inicio Pep
+		this.pep = new Pep(Pep,100,500,0,0.1);
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -197,6 +199,11 @@ public class Juego extends InterfaceJuego
 			gnomo.mover(this.barras);
 		}
 		
+		//Movimiento y dibujo de Pep
+		pep.dibujar(this.entorno);
+		pep.moverP(this.barras,entorno);
+		
+			
 		
 		
 		//Movimiento de las casa

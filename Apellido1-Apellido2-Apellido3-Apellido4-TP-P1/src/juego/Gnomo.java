@@ -65,8 +65,8 @@ public class Gnomo {
 		for (Barra barra : barras) {
 			if (barra != null && this.y + 20 >= barra.getY() - barra.getAlto() / 2 &&
 					this.y <= barra.getY() + barra.getAlto() / 2 &&
-					this.x + 20 >= barra.getX() - barra.getAncho() / 2 &&
-					this.x - 20 <= barra.getX() + barra.getAncho() / 2) {
+					this.x + 10 >= barra.getX() - barra.getAncho() / 2 &&
+					this.x - 10 <= barra.getX() + barra.getAncho() / 2) {
 				return true;
 			}
 		}
