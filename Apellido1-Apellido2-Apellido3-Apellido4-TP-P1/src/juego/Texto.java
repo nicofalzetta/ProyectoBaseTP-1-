@@ -18,7 +18,7 @@ public class Texto {
 	}
 	public void dibujarTexto(Entorno entorno) {
 		
-		entorno.cambiarFont("Times new roman",15, Color.BLACK,entorno.NEGRITA);
+		entorno.cambiarFont("Times new roman",16, Color.BLACK,entorno.NEGRITA);
 		entorno.escribirTexto(texto,x,y); // Aquí se dibuja el texto en las coordenadas especificadas
 
 	}

@@ -15,12 +15,13 @@ public class Gnomo {
 	private double escala;
 	private double desplazamiento;
 	private double direccion;
+	private double radio;
 	
 	//Array con las velocidades para cada gnomo
 	private static final double[] VELOCIDADES = {0.3,0.7,0.2,0.5};
 	private static final Random RANDOM = new Random();
 	
-	public Gnomo(Image imagen, double x, double y, double escala) {
+	public Gnomo(Image imagen, double x, double y, double escala,double radio) {
 		// 	Cargar la imagen
 		this.imagen = imagen;
 		this.x = x;
@@ -29,7 +30,7 @@ public class Gnomo {
 		this.escala = escala;
 		this.desplazamiento = 0;
 		this.direccion = Math.random() > 0.5 ? 1 : -1;
-		
+		this.radio = radio;
 	}
 
 	
@@ -108,6 +109,8 @@ public class Gnomo {
 	public double getY() {
 		return y;
 	}
-	
+	public double getRadio() {
+		return radio;
+	}
 	
 }

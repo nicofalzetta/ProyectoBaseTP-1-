@@ -2,6 +2,7 @@ package juego;
 
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Image;
 import entorno.Entorno;
 import java.util.List;
@@ -22,6 +23,8 @@ public class Juego extends InterfaceJuego
 	private Pep pep;
 	private List<Gnomo> gnomos;
 	private Texto[] textos;
+
+	private Object gnomo;
 	// ...
 	
 	Juego()
@@ -47,11 +50,11 @@ public class Juego extends InterfaceJuego
 		this.textos[5] = new Texto("Perdidos:",300,20); 
 		this.textos[6] = new Texto("0",365,20);       
 		//Gnomos Salvados:
-		this.textos[7] = new Texto("Salvados:",500,20); 
-		this.textos[8] = new Texto("0",565,20);
+		this.textos[7] = new Texto("Faltan Rescatar:",480,20); 
+		this.textos[8] = new Texto("0",593,20);
 		//Gnomos Eliminados:
-		this.textos[9] = new Texto("Salvados:",700,20); 
-		this.textos[10] = new Texto("0",765,20);
+		this.textos[9] = new Texto("Eliminados:",680,20); 
+		this.textos[10] = new Texto("0",760,20);
 		
 		
 		
@@ -112,11 +115,11 @@ public class Juego extends InterfaceJuego
 		this.gnomos = new ArrayList<>();
 		int numeroDeGnomos = (int) (Math.random() * 3) + 2;
 		for(int i = 0; i < numeroDeGnomos; i++) {
-			Gnomo gnomo = new Gnomo(Gnomo,400,50,0.04);
+			Gnomo gnomo = new Gnomo(Gnomo,400,50,0.04, 1);
 			this.gnomos.add(gnomo);
 		}
 		//Inicio Pep
-		this.pep = new Pep(Pep,100,500,0,0.1);
+		this.pep = new Pep(Pep,100,500,0,0.1,1);
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -200,17 +203,25 @@ public class Juego extends InterfaceJuego
 		}
 		
 		//Movimiento y dibujo de los gnomos
-		for (Gnomo gnomo : gnomos) {
-			gnomo.dibujar(this.entorno);
-			gnomo.mover(this.barras);
-		}
-		
-		//Movimiento y dibujo de Pep
-		pep.dibujar(this.entorno);
-		pep.moverP(this.barras,entorno);
-		
-			
-		
+		int Perdidos = 0;
+		int Salvados = 0;
+		for (Gnomo gnomo : gnomos)
+        {
+		   gnomo.dibujar(this.entorno);
+		   gnomo.mover(this.barras);	
+		 //Salvando Gnomos
+		   if (pep.colision(pep, gnomo)) { // Maneja la colisión (por ejemplo, restar vida, eliminar el gnomo, etc.)
+			  
+			   gnomos.remove(gnomo);   
+		    }
+		   Salvados++;
+		   
+		   if (gnomo.getY() > 600) 
+		    {
+			   gnomo= null; // Guarda la referencia al gnomo que se perdió
+			   Perdidos++;
+			} 
+        }
 		
 		//Movimiento de las casa
 		Casa c = this.casa;
@@ -258,23 +269,47 @@ public class Juego extends InterfaceJuego
 		  }
 		}
         //Gnomos Perdidos:
-			int Perdidos = 0;
-	     	
 			textos[5].dibujarTexto(this.entorno);  // Dibuja el Texto en Pantalla/
 		    textos[6].actualizarNumero(Perdidos);  // Actualiza el texto con el contador.   
 	        textos[6].dibujarTexto(entorno);       // Dibuja el contador.
-	      //Gnomos Perdidos:
-			int Salvados = 0;
-	     	
+	
+	      
+	      //Gnomos Salvados:
+			
 			textos[7].dibujarTexto(this.entorno);  // Dibuja el Texto en Pantalla/
 		    textos[8].actualizarNumero(Salvados);  // Actualiza el texto con el contador.   
 	        textos[8].dibujarTexto(entorno);       // Dibuja el contador.
-	      //Gnomos Eliminados:
+	      
+	        //Gnomos Eliminados:
 	        int Eliminados = 0;
 	        textos[9].dibujarTexto(this.entorno);  // Dibuja el Texto en Pantalla/
 		    textos[10].actualizarNumero(Eliminados);  // Actualiza el texto con el contador.   
 	        textos[10].dibujarTexto(entorno);       // Dibuja el contador.
+	     
+	     
+	      //Movimiento y dibujo de Pep
+			
+			
+	        
+	       
+	            Pep p = this.pep;
+	            if (p != null) { // Reviso que la referencia al objeto no sea NULL
+	                p.dibujar(this.entorno);
+	                pep.moverP(this.barras, entorno);
+	                
+	                if (p.getY() > 600) {
+	                    this.pep = null;
+	                    
+	                    System.exit(0);
+	                }        
+	            }
 	}
+	
+	
+	
+	
+	
+	
 	
 	    
 	            

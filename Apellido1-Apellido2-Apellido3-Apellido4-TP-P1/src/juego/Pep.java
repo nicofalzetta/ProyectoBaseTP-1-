@@ -15,9 +15,10 @@ public class Pep {
 		private double velocidad;
 		private double direccion;
 		private double velocidadSalto;
+		private double radio;
 	
 	
-	public Pep(Image imagen,double x, double y, double angulo, double escala) {
+	public Pep(Image imagen,double x, double y, double angulo, double escala, double radio) {
 		this.imagen = imagen;
 		this.x = x;
 		this.y = y;
@@ -26,6 +27,7 @@ public class Pep {
 		this.velocidad = velocidad;
 		this.direccion = 0;
 		this.velocidadSalto = velocidadSalto;
+		this.radio = radio;
 	}
 	
 	
@@ -44,6 +46,9 @@ public class Pep {
 
 	public double getEscala() {
 		return escala;
+	}
+	public double getRadio() {
+		return radio;
 	}
 	
 	public double getVelocidad() {
@@ -88,14 +93,21 @@ public class Pep {
 				}
 				}
 				
-		   
+		//Verifica la colision con una barra
+		public boolean colisionaConBarra(Barra barra) {
+			return(this.x > barra.getX() - barra.getAncho() / 2 &&
+					this.x < barra.getX() + barra.getAncho() / 2 &&
+					this.y + 20 >= barra.getY() - barra.getAlto() / 2 &&
+					this.y <= barra.getY() + barra.getAlto() / 2);
+		}
+		
 			
 		
 		
 		public void caer(Barra[] barras) {
 			this.y += 2;
+		
 		}
-	
 	//dibuja la imagen de Pep
 		public void dibujar(Entorno entorno) {
 			entorno.dibujarImagen(this.imagen,this.x,this.y,this.angulo,this.escala);
@@ -115,6 +127,19 @@ public class Pep {
 			}
 			return false;
 		}
+		public boolean colision(Pep p, Gnomo gnomo) {
+		    // Calcula la distancia entre los centros
+		    double deltaX = p.getX() - gnomo.getX();
+		    double deltaY = p.getY() - gnomo.getY();
+		    double distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+		    // Suma de los radios
+		    double sumaRadios = p.getRadio() + gnomo.getRadio();
+
+		    // Si la distancia es menor que la suma de los radios, hay colisión
+		    return distancia < sumaRadios;
+		}
+
 		
 		
 	}
