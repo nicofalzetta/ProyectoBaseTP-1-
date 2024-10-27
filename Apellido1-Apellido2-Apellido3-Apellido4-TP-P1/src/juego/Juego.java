@@ -25,6 +25,7 @@ public class Juego extends InterfaceJuego
 	private Texto[] textos;
 	private List<Tortuga> tortugas;
 	private Object gnomo;
+	private bolaDeFuego BolaDeFuego;
 	
 	Juego()
 	{
@@ -37,7 +38,7 @@ public class Juego extends InterfaceJuego
 		Image Gnomo = Herramientas.cargarImagen("imagenes/gnomo.png");
 		Image Pep = Herramientas.cargarImagen("Imagenes/Pep.png");
 		Image Tortuga = Herramientas.cargarImagen("imagenes/tortuga.png");
-		
+		Image bolaDeFuego = Herramientas.cargarImagen("Imagenes/bolaDeFuego.png");
 		
 		
 		//Paisaje de Fondo:
@@ -128,11 +129,15 @@ public class Juego extends InterfaceJuego
 		this.tortugas = new ArrayList<>();
 		int numeroDeTortugas = (int) (Math.random() * 3) + 2;
 		for(int i = 0; i < numeroDeTortugas; i++) {
-			Tortuga tortuga = new Tortuga(Tortuga,100,0.1,1);
+			Tortuga tortuga = new Tortuga(Tortuga,400,0.1,1);
 			this.tortugas.add(tortuga);		
 		}
 		//Inicio Pep
 		this.pep = new Pep(Pep,100,500,0,0.1,1);
+		
+		//Inicio BolaDeFuego
+		this.BolaDeFuego = new bolaDeFuego(bolaDeFuego,pep.getX(),pep.getY(),0.05,0,1);
+
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -218,19 +223,8 @@ public class Juego extends InterfaceJuego
 		   gnomo.mover(this.barras);
 		}  
 		
-		 /*   
-		// Movimiento y dibujo de las tortugas
-			for (Tortuga tortuga : tortugas) 
-			{
-			    tortuga.dibujar(this.entorno);
-			    tortuga.mover(this.barras);
-			    if (tortuga.colision(tortuga, gnomo)) //Maneja la colisión
-			    { 
-			         gnomos.remove(gnomo);            //También puedes usar iterador aquí si prefieres
-			         Eliminados++;
-			    }
-            }  
-        */
+		   
+		
 		//Movimiento de las casa
 		Casa c = this.casa;
 		if(c != null) 
@@ -286,7 +280,7 @@ public class Juego extends InterfaceJuego
 		    {
 			   gnomo= null; // Guarda la referencia al gnomo que se perdió
 			   Perdidos++;
-			   textos[6].actualizarNumero(Perdidos);  // Actualiza el texto con el contador. 
+			   textos[6].actualizarNumeroPerdidos(Perdidos);  // Actualiza el texto con el contador. 
 			}
 	        }
 	     //Gnomos Salvados:
@@ -296,23 +290,41 @@ public class Juego extends InterfaceJuego
 	        textos[8].dibujarTexto(entorno);       // Dibuja el contador.
 	        for (Gnomo gnomo : gnomos)
 	        {
-	           textos[8].actualizarNumero(Salvados);	
 			 //Salvando Gnomos
-			   if (pep.colision(pep, gnomo)) { // Maneja la colisión (por ejemplo, restar vida, eliminar el gnomo, etc.)
+			   if (pep.colisionPepGnomos(pep, gnomo)) { // Maneja la colisión (por ejemplo, restar vida, eliminar el gnomo, etc.)
+				   textos[8].actualizarNumerodeSalvados(Salvados);
+				   gnomos.remove(gnomo);
+				    
 				   
-				   if(gnomos.remove(gnomo)) {
-				   Salvados++;
-				   }
-				   System.out.println(Salvados);
-				   
+			   }
+			   Salvados++;
+			     
 			    }
 			   
-	        }
+	        
 	     //Gnomos Eliminados:
 			int Eliminados = 0;
 	        textos[9].dibujarTexto(this.entorno);     // Dibuja el Texto en Pantalla/
 		    textos[10].actualizarNumero(Eliminados);  // Actualiza el texto con el contador.   
-	        textos[10].dibujarTexto(entorno);         // Dibuja el contador.
+	        textos[10].dibujarTexto(entorno);
+	     
+	        // Movimiento y dibujo de las tortugas
+	     	for (Tortuga tortuga : tortugas) 
+	     	{
+	     	  tortuga.dibujar(this.entorno);
+		      tortuga.mover(this.barras);
+	     		for (Gnomo gnomo : gnomos)
+		        {
+	     	
+	     	 if (tortuga.colisionTortugaGnomo(tortuga, gnomo)) //Maneja la colisión
+	     	  { 
+	     		gnomos.remove(gnomo);              //También puedes usar iterador aquí si prefieres
+	     		Eliminados++;
+	     		textos[10].actualizarNumero(Eliminados);  // Actualiza el texto con el contador.
+	          }
+	     	  
+	         }  
+	     	}                                              // Dibuja el contador.
 	      
 	     //Movimiento y dibujo de Pep
 			
@@ -327,17 +339,13 @@ public class Juego extends InterfaceJuego
 	               System.exit(0);
 	            }        
 	        }
-	}
-		/*
-		//Revisamos que tecla esta presionada
-		// Si se presiona la 'p' hacemos el movimiento inicial
-		if(this.entorno.sePresiono('p')) {
-			this.casa.iniciar(4);
-			for(Isla p: this.islas) {
-				p.iniciar(4);
+	      //Movimiento y dibujo de Pep y la bola de fuego
+			pep.dibujar(this.entorno);
+			pep.moverP(this.barras,entorno);
+			if (BolaDeFuego.lanzarB(this.entorno)) {
+				BolaDeFuego.dibujar(this.entorno);
 			}
-		}
-		*/		
+	}	
 	
 	@SuppressWarnings("unused")
 	public static void main(String[] args)

@@ -121,14 +121,14 @@ public class Tortuga{
 	public double getRadio() {
 		return radio;
 	}
-	public boolean colision(Tortuga t, Gnomo gnomo) {
+	public boolean colisionTortugaGnomo(Tortuga t, Gnomo g) {
 	    // Calcula la distancia entre los centros
-	    double deltaX = t.getX() - gnomo.getX();
-	    double deltaY = t.getY() - gnomo.getY();
+	    double deltaX = t.getX() - g.getX();
+	    double deltaY = t.getY() - g.getY();
 	    double distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
 	    // Suma de los radios
-	    double sumaRadios = t.getRadio() + gnomo.getRadio();
+	    double sumaRadios = t.getRadio() + g.getRadio();
 
 	    // Si la distancia es menor que la suma de los radios, hay colisión
 	    return distancia < sumaRadios;

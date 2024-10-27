@@ -73,25 +73,32 @@ public class Pep {
 		
 	}
 	//Para el movimiento de Pep
-		public void moverP(Barra[] barras,Entorno entorno) {
-			//Verifica si esta sobre una barra, sino lo esta, cae
-			if (!this.estaSobreBarra(barras)) {
-				caer(barras);
-			}else {
-				//Movimiento del gnomo hacia la izquierda o derecha
-				if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
-					this.y -= velocidadSalto + velocidad + 60;
-				
+			public void moverP(Barra[] barras,Entorno entorno) {
+				//Verifica si esta sobre una barra, sino lo esta, cae
+				if (!this.estaSobreBarra(barras)) {
+					caer(barras);
 				}
-				if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
-					this.x -= velocidad + 1;
+				else {
+					//Movimiento de Pep hacia la izquierda o derecha
+					if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
+
+						this.y -= velocidadSalto + velocidad + 30;
+					
+
+						this.y -= velocidadSalto + 30;
+						
+
+					}
 				}
-				
-				}
-				if (entorno.estaPresionada(entorno.TECLA_DERECHA)) {
-					this.x += velocidad + 1;
-				}
-				}
+					if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
+						this.x -= velocidad + 1;
+					}
+					
+					
+					if (entorno.estaPresionada(entorno.TECLA_DERECHA)) {
+						this.x += velocidad + 1;
+					}
+					}
 				
 		//Verifica la colision con una barra
 		public boolean colisionaConBarra(Barra barra) {
@@ -127,7 +134,7 @@ public class Pep {
 			}
 			return false;
 		}
-		public boolean colision(Pep p, Gnomo gnomo) {
+		public boolean colisionPepGnomos(Pep p, Gnomo gnomo) {
 		    // Calcula la distancia entre los centros
 		    double deltaX = p.getX() - gnomo.getX();
 		    double deltaY = p.getY() - gnomo.getY();
@@ -138,7 +145,18 @@ public class Pep {
    
 		    return distancia < sumaRadios;  // Si la distancia es menor que la suma de los radios, hay colisión
 		}
+		
+		public boolean colisionPepTortugas(Pep p, Tortuga t) {
+		    // Calcula la distancia entre los centros
+		    double deltaX = p.getX() - t.getX();
+		    double deltaY = p.getY() - t.getY();
+		    double distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
+		    // Suma de los radios
+		    double sumaRadios = p.getRadio() + t.getRadio();
+   
+		    return distancia < sumaRadios;  // Si la distancia es menor que la suma de los radios, hay colisión
+		}
 		
 		
 	}

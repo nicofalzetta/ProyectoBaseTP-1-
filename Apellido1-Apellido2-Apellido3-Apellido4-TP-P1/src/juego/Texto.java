@@ -25,7 +25,12 @@ public class Texto {
 	public void actualizarNumero(int numero) {
         this.texto = String.valueOf(numero); // Actualiza el texto con el nuevo número
     }
-	
+	public void actualizarNumeroPerdidos(int numero) {
+        this.texto = String.valueOf(numero); // Actualiza el texto con el nuevo número
+    }
+	public void actualizarNumerodeSalvados(int numero) {
+        this.texto = String.valueOf(numero); // Actualiza el texto con el nuevo número
+    }
 	public String getTexto() {
 		return texto;
 	}
