@@ -134,74 +134,73 @@ public class Juego extends InterfaceJuego
 	 */
 	public void tick()
 	{
-		
-		
-		// Procesamiento de un instante de tiempo
-		//this.barra.dibujar(this.entorno);
-		
-
 		//Imagen de Fondo:
 	    this.paisaje.dibujar(this.entorno);
 	 
 	 	//Movimiento de la barra:
 		
 		//barras Inferirores
-		for(int i = 0; i < this.barras.length-3; i++) {
+		for(int i = 0; i < this.barras.length-3; i++) 
+		{
 		    Barra b = this.barras[i];
-			if(b != null) { // Reviso que la referencia al objeto no sea NULL
+			if(b != null) 
+			{ // Reviso que la referencia al objeto no sea NULL
 				b.dibujar(this.entorno);
-			}
+		    }
 		}	
 		//barras Superiores:
 		
-		for(int i = 12; i < this.barras.length; i++) {
+		for(int i = 12; i < this.barras.length; i++) 
+		 {
 		    Barra b = this.barras[i];
-			if(b != null) { // Reviso que la referencia al objeto no sea NULL
+			if(b != null) 
+			{ // Reviso que la referencia al objeto no sea NULL
 				b.dibujar(this.entorno);
 				b.mover();
-				
-				if(b.getX() - b.getAncho() < 100) {
-					b.rebotarderecha();
-				}
-				if(b.getX() - b.getAncho()  > 700) {
+			  if(b.getX() - b.getAncho() < 100)
+			     {
+			    	b.rebotarderecha();
+			     }
+			  if(b.getX() - b.getAncho()  > 700) 
+			     {
 					b.rebotarizquierda();
-				}
-				
+			     }		
 			}
-		
-		}
+		 }
 		//Dibuja la Casa de los Gnomos:
 		this.casa.dibujar(this.entorno);	
-				
-		
-		
+
 		//Dibujo y Movimiento de la Isla:
-		
 		//Islas Inferirores
-		for(int i = 0; i < this.islas.length-3; i++) {
+		for(int i = 0; i < this.islas.length-3; i++) 
+		{
 		    Isla p = this.islas[i];
-			if(p != null) { // Reviso que la referencia al objeto no sea NULL
+			if(p != null)            // Reviso que la referencia al objeto no sea NULL
+			{ 
 				p.dibujar(this.entorno);
 			}
 		}	
 		//Islas Superiores:
 		
-		for(int i = 12; i < this.islas.length; i++) {
+		for(int i = 12; i < this.islas.length; i++) 
+		{
 		    Isla p = this.islas[i];
-			if(p != null) { // Reviso que la referencia al objeto no sea NULL
+			if(p != null) 
+			{           // Reviso que la referencia al objeto no sea NULL
 				p.dibujar(this.entorno);
 				p.mover();
 				
-				if(p.getX() - p.getEscala() < 100) {
+				if(p.getX() - p.getEscala() < 100) 
+				{
 					p.rebotarderecha();
 				}
-				if(p.getX() - p.getEscala()  > 700) {
+				if(p.getX() - p.getEscala()  > 700) 
+				{
 					p.rebotarizquierda();
 				}
 				
 			}
 		}
-		
 		//Movimiento y dibujo de los gnomos
 		int Perdidos = 0;
 		int Salvados = 0;
@@ -229,10 +228,12 @@ public class Juego extends InterfaceJuego
 			c.dibujar(this.entorno);
 			c.mover();
 				
-			if(c.getX() - c.getEscala() < 100) {
+			if(c.getX() - c.getEscala() < 100) 
+			{
 					c.rebotarderecha();
 			}
-			if(c.getX() - c.getEscala()  > 700) {
+			if(c.getX() - c.getEscala()  > 700) 
+			{
 					c.rebotarizquierda();
 			}
 				
