@@ -9,6 +9,7 @@ public class Tortuga{
 	private Image imagen;
 	private double x;
 	private double y;
+	private double radio;
 	private double velocidad;
 	private double escala;
 	private double desplazamiento;
@@ -20,7 +21,7 @@ public class Tortuga{
 	//Array con las posiciones para cada tortuga
 	private static final int[] POSICIONES = {100,200,600,700};
 	
-	public Tortuga(Image imagen, double y, double escala) {
+	public Tortuga(Image imagen, double y, double escala,double radio) {
 		// 	Cargar la imagen
 		this.imagen = imagen;
 		this.x = POSICIONES[RANDOM.nextInt(POSICIONES.length)];
@@ -117,5 +118,19 @@ public class Tortuga{
 	public double getY() {
 		return y;
 	}
-	
+	public double getRadio() {
+		return radio;
+	}
+	public boolean colision(Tortuga t, Gnomo gnomo) {
+	    // Calcula la distancia entre los centros
+	    double deltaX = t.getX() - gnomo.getX();
+	    double deltaY = t.getY() - gnomo.getY();
+	    double distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+	    // Suma de los radios
+	    double sumaRadios = t.getRadio() + gnomo.getRadio();
+
+	    // Si la distancia es menor que la suma de los radios, hay colisión
+	    return distancia < sumaRadios;
+	}
 }

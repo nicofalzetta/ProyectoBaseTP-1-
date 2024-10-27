@@ -135,9 +135,8 @@ public class Pep {
 
 		    // Suma de los radios
 		    double sumaRadios = p.getRadio() + gnomo.getRadio();
-
-		    // Si la distancia es menor que la suma de los radios, hay colisión
-		    return distancia < sumaRadios;
+   
+		    return distancia < sumaRadios;  // Si la distancia es menor que la suma de los radios, hay colisión
 		}
 
 		
