@@ -1,6 +1,7 @@
 package juego;
 
 
+import java.awt.Color;
 import java.awt.Image;
 import entorno.Entorno;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Juego extends InterfaceJuego
 	private Paisaje paisaje;
 	private Pep pep;
 	private List<Gnomo> gnomos;
+	private Texto[] textos;
 	// ...
 	
 	Juego()
@@ -33,6 +35,26 @@ public class Juego extends InterfaceJuego
 		Image Gnomo = Herramientas.cargarImagen("imagenes/gnomo.png");
 		Image Pep = Herramientas.cargarImagen("Imagenes/Pep.png");
 		
+		//texto en pantalla:
+		this.textos = new Texto[11];
+		//Contador de tiempo:
+		this.textos[0] = new Texto("Tiempo:",100,20); 
+		this.textos[1] = new Texto("0",157,20);       
+		this.textos[2] = new Texto(":",165,20);       
+		this.textos[3] = new Texto("0",170,20);       
+		this.textos[4] = new Texto("0",180,20);       
+        //Gnomos Perdididos:
+		this.textos[5] = new Texto("Perdidos:",300,20); 
+		this.textos[6] = new Texto("0",365,20);       
+		//Gnomos Salvados:
+		this.textos[7] = new Texto("Salvados:",500,20); 
+		this.textos[8] = new Texto("0",565,20);
+		//Gnomos Eliminados:
+		this.textos[9] = new Texto("Salvados:",700,20); 
+		this.textos[10] = new Texto("0",765,20);
+		
+		
+		
 		//Paisaje de Fondo:
 		this.paisaje = new Paisaje(paisaje,350,350,0,0.22);
 		
@@ -41,11 +63,11 @@ public class Juego extends InterfaceJuego
 		
 		this.barras = new Barra[15];
 		//Primera Fila:
-		this.barras[0] = new Barra(100,530,132,21, 0);
-		this.barras[1] = new Barra(250,530,132,21, 0);
-		this.barras[2] = new Barra(400,530,132,21, 0);
-		this.barras[3] = new Barra(550,530,132,21, 0);
-		this.barras[4] = new Barra(700,530,132,21, 0);
+		this.barras[0] = new Barra(100,530,121,21, 0);
+		this.barras[1] = new Barra(250,530,121,21, 0);
+		this.barras[2] = new Barra(400,530,121,21, 0);
+		this.barras[3] = new Barra(550,530,121,21, 0);
+		this.barras[4] = new Barra(700,530,121,21, 0);
 		//Segunda Fila:
 		this.barras[5] = new Barra(150,430,143,24, 0);
 		this.barras[6] = new Barra(320,430,143,24, 0);
@@ -65,11 +87,11 @@ public class Juego extends InterfaceJuego
 		//Islas:
 		this.islas = new Isla[20];
 		//Primera Fila:
-		this.islas[0] = new Isla(ImagenIsla,100,530,0,0.19, 0);
-		this.islas[1] = new Isla(ImagenIsla,250,530,0,0.19, 0);
-		this.islas[2] = new Isla(ImagenIsla,400,530,0,0.19, 0);
-		this.islas[3] = new Isla(ImagenIsla,550,530,0,0.19, 0);
-		this.islas[4] = new Isla(ImagenIsla,700,530,0,0.19, 0);
+		this.islas[0] = new Isla(ImagenIsla,100,530,0,0.18, 0);
+		this.islas[1] = new Isla(ImagenIsla,250,530,0,0.18, 0);
+		this.islas[2] = new Isla(ImagenIsla,400,530,0,0.18, 0);
+		this.islas[3] = new Isla(ImagenIsla,550,530,0,0.18, 0);
+		this.islas[4] = new Isla(ImagenIsla,700,530,0,0.18, 0);
 		//Segunda Fila:
 		this.islas[5] = new Isla(ImagenIsla,150,430,0,0.21, 0);
 		this.islas[6] = new Isla(ImagenIsla,320,430,0,0.21, 0);
@@ -93,7 +115,6 @@ public class Juego extends InterfaceJuego
 			Gnomo gnomo = new Gnomo(Gnomo,400,50,0.04);
 			this.gnomos.add(gnomo);
 		}
-		
 		//Inicio Pep
 		this.pep = new Pep(Pep,100,500,0,0.1);
 
@@ -115,26 +136,11 @@ public class Juego extends InterfaceJuego
 		// Procesamiento de un instante de tiempo
 		//this.barra.dibujar(this.entorno);
 		
-		
-		
-	/**	Movimiento de la barra
-		*boolean sePresionoLaTeclaDerecha = this.entorno.estaPresionada(this.entorno.TECLA_DERECHA);
-		*boolean noSePasaLaBarraAlaDerecha = (this.barra.getX() + this.barra.getAncho()/2) < this.entorno.ancho();
-		*if(sePresionoLaTeclaDerecha && noSePasaLaBarraAlaDerecha) {
-		*	this.barra.moverDerecha();
-		*}
-		*
-		* Revisamos si la barra se movio hacia la izquierda
-		*boolean sePresionoLaTeclaIzquierda = this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA);
-		*boolean noSePasaLaBarraAlaIzquierda = (this.barra.getX() - this.barra.getAncho()/2) > 0;
-		*if(sePresionoLaTeclaIzquierda && noSePasaLaBarraAlaIzquierda) {
-		*	this.barra.moverIzquierda();
-		*}
-		*/	
+
 		//Imagen de Fondo:
-				this.paisaje.dibujar(this.entorno);
-		
-	    //Movimiento de la barra:
+	    this.paisaje.dibujar(this.entorno);
+	 
+	 	//Movimiento de la barra:
 		
 		//barras Inferirores
 		for(int i = 0; i < this.barras.length-3; i++) {
@@ -220,7 +226,65 @@ public class Juego extends InterfaceJuego
 			}
 				
 		  }	
-	}	
+		//Contadores en Pantalla:
+		
+		//Tiempo del juego:
+
+		int Seg = (entorno.tiempo())/1000; // Toma el tiempo en milisegundos desde que inicial el juego y los convierte en segundos.
+		int Min = 0; 
+		textos[0].dibujarTexto(this.entorno); //this.textos[0] = new Texto("Tiempo:",100,20); // "Tiempo."
+		textos[2].dibujarTexto(this.entorno); //this.textos[2] = new Texto(":",160,20);       // ":"
+		textos[1].dibujarTexto(this.entorno);
+		for (int i = 0; i < 10; i++) {
+		
+		  if(Seg < 10)
+		  {   this.textos[4] = new Texto("0",180,20);
+			  textos[3].actualizarNumero(0);   // Actualiza el texto con el contador. this.textos[3] = new Texto("0",165,20);       // "0"
+			  textos[3].dibujarTexto(entorno);      // Dibuja el contador.
+		  }
+		  if (Seg==10) {
+		  this.textos[4] = new Texto("0",170,20);
+		  }
+		  if (Seg < 60) 
+		  {
+		    textos[4].actualizarNumero(Seg);   // Actualiza el texto con el contador.   
+		    textos[4].dibujarTexto(entorno);   // Dibuja el contador.
+		  }Min +=1;
+		  if (Seg >= 60)     
+		  {
+			Seg -= 60;
+			textos[1].actualizarNumero(Min);   // Actualiza el texto con el contador.   
+			textos[1].dibujarTexto(entorno); // Dibuja el contador.
+		  }
+		}
+        //Gnomos Perdidos:
+			int Perdidos = 0;
+	     	
+			textos[5].dibujarTexto(this.entorno);  // Dibuja el Texto en Pantalla/
+		    textos[6].actualizarNumero(Perdidos);  // Actualiza el texto con el contador.   
+	        textos[6].dibujarTexto(entorno);       // Dibuja el contador.
+	      //Gnomos Perdidos:
+			int Salvados = 0;
+	     	
+			textos[7].dibujarTexto(this.entorno);  // Dibuja el Texto en Pantalla/
+		    textos[8].actualizarNumero(Salvados);  // Actualiza el texto con el contador.   
+	        textos[8].dibujarTexto(entorno);       // Dibuja el contador.
+	      //Gnomos Eliminados:
+	        int Eliminados = 0;
+	        textos[9].dibujarTexto(this.entorno);  // Dibuja el Texto en Pantalla/
+		    textos[10].actualizarNumero(Eliminados);  // Actualiza el texto con el contador.   
+	        textos[10].dibujarTexto(entorno);       // Dibuja el contador.
+	}
+	
+	    
+	            
+	    
+ 	
+		
+		
+		
+		
+		
 		/*
 		//Revisamos que tecla esta presionada
 		// Si se presiona la 'p' hacemos el movimiento inicial

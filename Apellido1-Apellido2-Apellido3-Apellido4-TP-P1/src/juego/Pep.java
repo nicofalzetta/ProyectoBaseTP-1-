@@ -75,9 +75,8 @@ public class Pep {
 			}else {
 				//Movimiento del gnomo hacia la izquierda o derecha
 				if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
-					this.y -= velocidadSalto + 30;
-					if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
-						this.y -= velocidadSalto + 30;}
+					this.y -= velocidadSalto + velocidad + 60;
+				
 				}
 				if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
 					this.x -= velocidad + 1;
@@ -107,7 +106,7 @@ public class Pep {
 		//Metodo para verificar si pep esta sobre una barra
 		public boolean estaSobreBarra(Barra[] barras) {
 			for (Barra barra : barras) {
-				if (barra != null && this.y + 20 >= barra.getY() - barra.getAlto() / 2 &&
+				if (barra != null && this.y + 20 >= barra.getY() - barra.getAlto() /2 &&
 						this.y <= barra.getY() + barra.getAlto() / 2 &&
 						this.x + 10 >= barra.getX() - barra.getAncho() / 2 &&
 						this.x - 10 <= barra.getX() + barra.getAncho() / 2) {
@@ -117,7 +116,8 @@ public class Pep {
 			return false;
 		}
 		
-		}
+		
+	}
 		
 		
 
