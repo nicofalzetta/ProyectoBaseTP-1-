@@ -14,7 +14,6 @@ Este es un juego de plataforma en Java en el que nuestro protagonista el caballe
    git clone https://github.com/nicofalzetta/ProyectoBaseTP-1-.git
 
 # Clases
-
 # `Gnomo`
 
 La clase `Gnomo` representa un personaje en el juego que tiene capacidades de movimiento, visibilidad controlada y detección de colisiones. 
@@ -78,3 +77,146 @@ Inicializa un gnomo con su imagen, posición (`x` y `y`), escala y una velocidad
 
 ### Inicialización de los Gnomos
 En el constructor de `Juego`, inicializamos una lista de gnomos que se instancian de manera aleatoria para crear entre 2 y 4 gnomos en cada inicio del juego.
+
+# `Texto`
+
+La clase `Texto` representa el texto en pantalla en el juego, el cual nos muestra en tiempo real el tiempo real de juego, un contador con los gnomos salvados por pep, un contador con los gnomos perdidos al caer de la ultima isla y un contador de gnomos eliminados por las tortugas.
+
+## Atributos
+- **`Texto`**: El texto que se muestra en pantalla.
+- **`x`, `y`**: Coordenadas de posición del texto en el entorno.
+## Constructor
+
+### `public Texto(String texto,double x, double y)`
+
+Inicializa el texto en pantalla en la posición (`x` y `y`).
+
+## Métodos de visivilidad y actualizacion del texto.
+
+- ### `public void dibujarTexto(Entorno entorno)`
+  Nos muestra en pantalla el texto solicitado en la clase juego, pudiendo definir desde este metodo la fuente, el tamaño y el color de la letra.
+
+- ### `public void actualizarNumerodeTiempo(int numero)`
+  Actualiza constantemente el texto en pantalla que controla el tiempo con el nuevo valor numerico pasado como un parametro en la clase juego .
+
+- ### `public void actualizarNumeroPerdidos(int numero) `
+  Actualiza constantemente el texto en pantalla que controla el valor de los gnomos perdidos, con el nuevo valor numerico pasado como un parametro en la clase juego.
+
+- ### `public void actualizarNumerodeEliminados(int numero)`
+ Actualiza constantemente el texto en pantalla que controla el valor de los gnomos eliminados por las tortugas, con el nuevo valor numerico pasado como un parametro en la clase juego.
+
+- ### `public void actualizarNumerodeSalvados(int numero)`
+ Actualiza constantemente el texto en pantalla que controla el valor de los gnomos salvados por pep, con el nuevo valor numerico pasado como un parametro en la clase juego.
+
+## Implementación de la clase en `Juego`
+
+### Inicialización de Texto
+En el constructor de `Juego`, inicializamos un arreglo con la cantidad de textos para mostrar en pantalla. 
+Texto en pantalla: this.textos = new Texto[11]; y luego a cada arreglo le pasamos los variables de instancia
+con los valores pedidos por el constructor del objeto. this.textos[numero de array] = new Texto("texto",x,y);
+-----------------------------------------------------------------------------------------------------------------------------------------
+# `Isla`
+
+La clase `Isla` representa las islas que estan flotando en el juego, donde interactuan las tortugas, pep y los gnomos del entorno del juego.
+
+## Atributos
+- **`imagen`**: La imagen que representa visualmente a la isla.
+- **`x`, `y`**: Coordenadas de posición de la isla en el entorno.
+- **`Angulo`**: Angulo con el que ve en pantalla la imagen. 
+- **`escala`**: Escala de tamaño de la isla en relación con su imagen original.
+## Constructor
+
+### `public Isla(Image imagen, double x, double y, double angulo, double escala, double velocidad)`
+
+Inicializa el imagen en pantalla en la posición (`x` y `y`), con un angulo y una escala. el valor de estas variables son pasadas como parametros en la clase juego por medio de un Array.
+
+## Métodos de visivilidad y actualizacion del texto.
+
+- ### `public void dibujar(Entorno entorno)`
+  Nos muestra en pantalla la imagen de lista, los parametros desde la clase juego.
+
+
+## Implementación de la clase en `Juego`
+
+### Inicialización de Texto
+En el constructor de `Juego`, inicializamos un arreglo con la cantidad de islas para mostrar en pantalla. Previamente se guarda en una variable de tipo image la imagen a mostrar y por medio de un array se crean la cantidad de islas necesarias. 
+Imagen en pantalla: this.isla = new Isla[cant de arreglos]; y luego a cada arreglo le pasamos las variables de instancia
+con los valores pedidos por el constructor del objeto. this.isla[numero de array] = new Isla(imagen,x,y,escala,angulo);
+-----------------------------------------------------------------------------------------------------------------------------------------
+# `Barra`
+
+La clase `Texto` representa el texto en pantalla en el juego, el cual nos muestra en tiempo real el tiempo real de juego, un contador con los gnomos salvados por pep, un contador con los gnomos perdidos al caer de la ultima isla y un contador de gnomos eliminados por las tortugas.
+
+## Atributos
+- **`Texto`**: El texto que se muestra en pantalla.
+- **`x`, `y`**: Coordenadas de posición del texto en el entorno.
+## Constructor
+
+### `public Texto(String texto,double x, double y)`
+
+Inicializa el texto en pantalla en la posición (`x` y `y`).
+
+## Métodos de visivilidad y actualizacion del texto.
+
+- ### `public void dibujarTexto(Entorno entorno)`
+  Nos muestra en pantalla el texto solicitado en la clase juego, pudiendo definir desde este metodo la fuente, el tamaño y el color de la letra.
+
+- ### `public void actualizarNumerodeTiempo(int numero)`
+  Actualiza constantemente el texto en pantalla que controla el tiempo con el nuevo valor numerico pasado como un parametro en la clase juego .
+
+- ### `public void actualizarNumeroPerdidos(int numero) `
+  Actualiza constantemente el texto en pantalla que controla el valor de los gnomos perdidos, con el nuevo valor numerico pasado como un parametro en la clase juego.
+
+- ### `public void actualizarNumerodeEliminados(int numero)`
+ Actualiza constantemente el texto en pantalla que controla el valor de los gnomos eliminados por las tortugas, con el nuevo valor numerico pasado como un parametro en la clase juego.
+
+- ### `public void actualizarNumerodeSalvados(int numero)`
+ Actualiza constantemente el texto en pantalla que controla el valor de los gnomos salvados por pep, con el nuevo valor numerico pasado como un parametro en la clase juego.
+
+## Implementación de la clase en `Juego`
+
+### Inicialización de Texto
+En el constructor de `Juego`, inicializamos un arreglo con la cantidad de textos para mostrar en pantalla. 
+Texto en pantalla: this.textos = new Texto[11]; y luego a cada arreglo le pasamos los variables de instancia
+con los valores pedidos por el constructor del objeto. this.textos[numero de array] = new Texto("texto",x,y);
+
+# `Casa`
+
+La clase `Texto` representa el texto en pantalla en el juego, el cual nos muestra en tiempo real el tiempo real de juego, un contador con los gnomos salvados por pep, un contador con los gnomos perdidos al caer de la ultima isla y un contador de gnomos eliminados por las tortugas.
+
+## Atributos
+- **`Texto`**: El texto que se muestra en pantalla.
+- **`x`, `y`**: Coordenadas de posición del texto en el entorno.
+## Constructor
+
+### `public Texto(String texto,double x, double y)`
+
+Inicializa el texto en pantalla en la posición (`x` y `y`).
+
+## Métodos de visivilidad y actualizacion del texto.
+
+- ### `public void dibujarTexto(Entorno entorno)`
+  Nos muestra en pantalla el texto solicitado en la clase juego, pudiendo definir desde este metodo la fuente, el tamaño y el color de la letra.
+
+- ### `public void actualizarNumerodeTiempo(int numero)`
+  Actualiza constantemente el texto en pantalla que controla el tiempo con el nuevo valor numerico pasado como un parametro en la clase juego .
+
+- ### `public void actualizarNumeroPerdidos(int numero) `
+  Actualiza constantemente el texto en pantalla que controla el valor de los gnomos perdidos, con el nuevo valor numerico pasado como un parametro en la clase juego.
+
+- ### `public void actualizarNumerodeEliminados(int numero)`
+ Actualiza constantemente el texto en pantalla que controla el valor de los gnomos eliminados por las tortugas, con el nuevo valor numerico pasado como un parametro en la clase juego.
+
+- ### `public void actualizarNumerodeSalvados(int numero)`
+ Actualiza constantemente el texto en pantalla que controla el valor de los gnomos salvados por pep, con el nuevo valor numerico pasado como un parametro en la clase juego.
+
+## Implementación de la clase en `Juego`
+
+### Inicialización de Texto
+En el constructor de `Juego`, inicializamos un arreglo con la cantidad de textos para mostrar en pantalla. 
+Texto en pantalla: this.textos = new Texto[11]; y luego a cada arreglo le pasamos los variables de instancia
+con los valores pedidos por el constructor del objeto. this.textos[numero de array] = new Texto("texto",x,y);
+
+		
+  
+  
