@@ -54,6 +54,10 @@ public class Gnomo {
         entorno.dibujarImagen(this.imagen, this.x, this.y, 0, escala);
     }
     
+    public boolean estaVisible() {
+		 return this.estaVisible;
+	 }
+    
     // Método para verificar si el gnomo está sobre una barra
     public boolean estaSobreBarra(Barra[] barras) {
         for (Barra barra : barras) {
@@ -116,12 +120,7 @@ public class Gnomo {
 			 }
 		 }
 
-	 public boolean estaVisible() {
-		 return this.estaVisible;
-	 }
-	 
-	 
-	 
+	
     // Getters
     
     public double getRadio() {

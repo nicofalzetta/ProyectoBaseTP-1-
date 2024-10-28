@@ -15,15 +15,15 @@ public class Tortuga{
 	private double direccion;
 	
 	//Array con las velocidades para cada tortuga
-	private static final double[] VELOCIDADES = {0.3,0.7,0.2,0.5};
+	private static final double[] VELOCIDADES = {1};
 	private static final Random RANDOM = new Random();
 	//Array con las posiciones para cada tortuga
-	private static final int[] POSICIONES = {100,200,600,700};
+	private static final int[] POSICIONESX = {100,200,600,700};
 	
 	public Tortuga(Image imagen, double y, double escala,double radio) {
 		// 	Cargar la imagen
 		this.imagen = imagen;
-		this.x = POSICIONES[RANDOM.nextInt(POSICIONES.length)];
+		this.x = POSICIONESX[RANDOM.nextInt(POSICIONESX.length)];
 		this.y = y;
 		this.velocidad = VELOCIDADES[RANDOM.nextInt(VELOCIDADES.length)]; 
 		this.escala = escala;
@@ -73,8 +73,8 @@ public class Tortuga{
 		for (Barra barra : barras) {
 			if (barra != null && this.y + 20 >= barra.getY() - barra.getAlto() / 2 &&
 					this.y <= barra.getY() + barra.getAlto() / 2 &&
-					this.x + 20 >= barra.getX() - barra.getAncho() / 2 &&
-					this.x - 20 <= barra.getX() + barra.getAncho() / 2) {
+					this.x + 10 >= barra.getX() - barra.getAncho() / 2 &&
+					this.x - 10 <= barra.getX() + barra.getAncho() / 2) {
 				return true;
 			}
 		}

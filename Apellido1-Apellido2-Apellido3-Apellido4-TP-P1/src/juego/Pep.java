@@ -98,7 +98,9 @@ public class Pep {
 					if (entorno.estaPresionada(entorno.TECLA_DERECHA)) {
 						this.x += velocidad + 1;
 					}
-					}
+					
+					
+}
 				
 		//Verifica la colision con una barra
 		public boolean colisionaConBarra(Barra barra) {
@@ -108,9 +110,8 @@ public class Pep {
 					this.y <= barra.getY() + barra.getAlto() / 2);
 		}
 		
+		
 			
-		
-		
 		public void caer(Barra[] barras) {
 			this.y += 2;
 		
@@ -120,7 +121,9 @@ public class Pep {
 			entorno.dibujarImagen(this.imagen,this.x,this.y,this.angulo,this.escala);
 		}
 		
-	
+		public void rebotar() {
+			this.velocidad = this.velocidad * (-1);
+		}
 		
 		//Metodo para verificar si pep esta sobre una barra
 		public boolean estaSobreBarra(Barra[] barras) {
@@ -134,6 +137,19 @@ public class Pep {
 			}
 			return false;
 		}
+		
+		public boolean debajobarra(Barra[] barras) {
+			for (Barra barra : barras) {
+				if (barra != null && this.y - 20 >= barra.getY() - barra.getAlto() /2 &&
+						this.y <= barra.getY() + barra.getAlto() / 2 &&
+						this.x + 10 >= barra.getX() - barra.getAncho() / 2 &&
+						this.x - 10 <= barra.getX() + barra.getAncho() / 2) {
+					return true;
+				}
+			}
+			return false;
+		}
+		
 		public boolean colisionPepGnomos(Pep p, Gnomo gnomo) {
 			 // Verifica que ambos objetos no sean nulos
 		    if (p == null || gnomo == null) {

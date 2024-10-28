@@ -26,6 +26,7 @@ public class Juego extends InterfaceJuego
 	
 	private int contadorGnomosPerdidos = 0;
 	private int contadorGnomosSalvados = 0;
+	private int contadorGnomosEliminados = 0;
 	
 	Juego()
 	{
@@ -85,9 +86,9 @@ public class Juego extends InterfaceJuego
 		this.barras[7] = new Barra(490,430,143,24, 0);
 		this.barras[8] = new Barra(660,430,143,24, 0);
 		//Tercera Fila:
-		this.barras[9]  = new Barra(200,330,150,26, 0);
-		this.barras[10] = new Barra(400,330,150,26, 0);
-		this.barras[11] = new Barra(600,330,150,26, 0);
+		this.barras[9]  = new Barra(200,310,150,20, 0);
+		this.barras[10] = new Barra(400,310,150,20, 0);
+		this.barras[11] = new Barra(600,310,150,20, 0);
 		//Cuarta Fila:
 		this.barras[12] = new Barra(300,200,150,26, 0);
 		this.barras[13] = new Barra(500,200,150,26, 0);
@@ -108,9 +109,9 @@ public class Juego extends InterfaceJuego
 		this.islas[7] = new Isla(ImagenIsla,490,430,0,0.21, 0);
 		this.islas[8] = new Isla(ImagenIsla,660,430,0,0.21, 0);
 		//Tercera Fila:
-		this.islas[9]  = new Isla(ImagenIsla,200,330,0,0.22, 0);
-		this.islas[10] = new Isla(ImagenIsla,400,330,0,0.22, 0);
-		this.islas[11] = new Isla(ImagenIsla,600,330,0,0.22, 0);
+		this.islas[9]  = new Isla(ImagenIsla,200,310,0,0.22, 0);
+		this.islas[10] = new Isla(ImagenIsla,400,310,0,0.22, 0);
+		this.islas[11] = new Isla(ImagenIsla,600,310,0,0.22, 0);
 		//Cuarta Fila:
 		this.islas[12] = new Isla(ImagenIsla,300,200,0,0.23, 0.0);
 		this.islas[13] = new Isla(ImagenIsla,500,200,0,0.23, 0.0);
@@ -124,7 +125,7 @@ public class Juego extends InterfaceJuego
 		this.gnomos = new Gnomo[numeroDeGnomos];
 		        
 		for (int i = 0; i < numeroDeGnomos; i++) {
-		  double x = 400; 
+		  double x = 100; 
 		  double y = 50; 
 		  double escala = 0.04;
 		  double radio = 1;
@@ -135,7 +136,7 @@ public class Juego extends InterfaceJuego
 		this.tortugas = new ArrayList<>();
 		int numeroDeTortugas = (int) (Math.random() * 3) + 2;
 		for(int i = 0; i < numeroDeTortugas; i++) {
-			Tortuga tortuga = new Tortuga(Tortuga,400,0.1,1);
+			Tortuga tortuga = new Tortuga(Tortuga,100,0.1,1);
 			this.tortugas.add(tortuga);		
 		}
 		//Inicio Pep
@@ -294,8 +295,6 @@ public class Juego extends InterfaceJuego
 				        if (gnomo.desaparece(550)) {
 				            // Incrementa el contador de gnomos perdidos
 				            contadorGnomosPerdidos++;
-				            System.out.println("Gnomo perdido: " + contadorGnomosPerdidos); // Para depuración
-				            
 				            gnomos[i] = null; // Marca el gnomo como null al desaparecer
 				        } else {
 				            // Verifica la reaparición del gnomo
@@ -310,58 +309,61 @@ public class Juego extends InterfaceJuego
 				    }
 				}
 
-				// Actualiza y dibuja el texto de gnomos perdidos
+				//Actualiza y dibuja el texto de gnomos perdidos
 				textos[6].actualizarNumeroPerdidos(contadorGnomosPerdidos);
-				textos[5].dibujarTexto(this.entorno);  // Dibuja el texto "Gnomos Perdidos"
-				textos[6].dibujarTexto(this.entorno); // Dibuja el contador de gnomos perdidos
+				textos[5].dibujarTexto(this.entorno);  
+				textos[6].dibujarTexto(this.entorno); 
 				    
 				    
-			      //Gnomos salvados:
-			        
-			        textos[7].dibujarTexto(this.entorno); // Dibuja el texto "Gnomos Salvados"
-			        textos[8].dibujarTexto(entorno);       // Dibuja el contador de gnomos salvados
+			    //Gnomos salvados:     
+			    textos[7].dibujarTexto(this.entorno); 
+			    textos[8].dibujarTexto(entorno);       
 
-			        for (int i = 0; i < gnomos.length; i++) {
-			            Gnomo gnomo = gnomos[i];
+			    for (int i = 0; i < gnomos.length; i++) {
+			        Gnomo gnomo = gnomos[i];
 			            
-			            // Verifica que el gnomo no sea null y que haya colisión con `pep`
-			            if (gnomo != null && pep.colisionPepGnomos(pep, gnomo)) {
-			                contadorGnomosSalvados++; // Incrementa el contador solo si hubo colisión
-			                gnomos[i] = null; // Marca el gnomo como null para evitar contarlo de nuevo
-			            }
-			        }
+			        // Verifica que el gnomo no sea null y que haya colisión con `pep`
+			         if (gnomo != null && pep.colisionPepGnomos(pep, gnomo)) {
+			            contadorGnomosSalvados++; // Incrementa el contador solo si hubo colisión
+			            gnomos[i] = null; // Marca el gnomo como null para evitar contarlo de nuevo
+			         }
+			     }
 
-			        // Actualiza el texto del contador de gnomos salvados fuera del bucle
-			        textos[8].actualizarNumerodeSalvados(contadorGnomosSalvados);
+			     // Actualiza el texto del contador de gnomos salvados fuera del bucle
+			     textos[8].actualizarNumerodeSalvados(contadorGnomosSalvados);
 			   
 	        
-	     //Gnomos Eliminados:
-			int Eliminados = 0;
-	        textos[9].dibujarTexto(this.entorno);     // Dibuja el Texto en Pantalla/
-		    textos[10].actualizarNumero(Eliminados);  // Actualiza el texto con el contador.   
-	        textos[10].dibujarTexto(entorno);
-	     
-	        // Movimiento y dibujo de las tortugas
-	     	for (Tortuga tortuga : tortugas) 
-	     	{
-	     	  tortuga.dibujar(this.entorno);
-		      tortuga.mover(this.barras);
-	     		for (Gnomo gnomo : gnomos)
-		        {
-	     	
-	     	 if (tortuga.colisionTortugaGnomo(tortuga, gnomo)) //Maneja la colisión
-	     	  { 
-	     		Eliminados++;
-	     		textos[10].actualizarNumero(Eliminados);  // Actualiza el texto con el contador.
-	          }
-	     	  
-	         }  
-	     	}                                              // Dibuja el contador.
+			  // Gnomos Eliminados:
+			    
+			     textos[9].dibujarTexto(this.entorno);      // Dibuja el texto de "Gnomos Eliminados" en pantalla.
+			     textos[10].dibujarTexto(entorno);          // Dibuja el contador actualizado.
+
+			     // Movimiento y dibujo de las tortugas
+			     for (Tortuga tortuga : tortugas) {
+			    	 
+			    	 //int SpawnTortuga = (entorno.tiempo())/1000;
+			    	 //for (int i = SpawnTortuga ; i < 60 ; i++) {
+			    		 tortuga.dibujar(this.entorno);
+			    		 tortuga.mover(this.barras);
+			    	// }
+			    		 
+			    	 
+			         for (int i = 0; i < gnomos.length; i++) {
+			             Gnomo gnomo = gnomos[i];
+			             
+			             // Verifica que el gnomo no sea null antes de chequear la colisión
+			             if (gnomo != null && tortuga.colisionTortugaGnomo(tortuga, gnomo)) { 
+			            	 contadorGnomosEliminados++; // Incrementa el contador al eliminar un gnomo
+			                 gnomos[i] = null; // Elimina el gnomo estableciendo su posición como null
+			             }
+			         }
+			     }                                 
+			     textos[10].actualizarNumero(contadorGnomosEliminados);  // Actualiza el texto del contador  
 	      
+	     	
 	     //Movimiento y dibujo de Pep
-			
 	        Pep p = this.pep;
-	        if (p != null)                            // Reviso que la referencia al objeto no sea NULL
+	        if (p != null)   // Reviso que la referencia al objeto no sea NULL
 	        { 
 	            p.dibujar(this.entorno);
 	            pep.moverP(this.barras, entorno);                
@@ -369,15 +371,21 @@ public class Juego extends InterfaceJuego
 	            {
 	               this.pep = null;             
 	               System.exit(0);
-	            }        
+	            }
+	            if(p.colisionaConBarra(this.barras[9]) || p.colisionaConBarra(this.barras[10]) || p.colisionaConBarra(this.barras[11])) {
+					p.rebotar();
+				}
+				
 	        }
+	      
 	      //Movimiento y dibujo de Pep y la bola de fuego
-			if (entorno.seLevanto(entorno.TECLA_IZQUIERDA)&& entorno.sePresiono('c')) {
+			if (entorno.seLevanto(entorno.TECLA_IZQUIERDA)&& entorno.sePresiono('c')) { 
 				BolaDeFuego.lanzarB(this.entorno);
 				BolaDeFuego.dibujar(this.entorno);
 				BolaDeFuego.mover(this.barras);
 			}
 	}	
+	
 	
 	@SuppressWarnings("unused")
 	public static void main(String[] args)
