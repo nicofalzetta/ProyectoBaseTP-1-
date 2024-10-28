@@ -342,8 +342,10 @@ public class Juego extends InterfaceJuego
 	      //Movimiento y dibujo de Pep y la bola de fuego
 			pep.dibujar(this.entorno);
 			pep.moverP(this.barras,entorno);
-			if (BolaDeFuego.lanzarB(this.entorno)) {
+			if (entorno.seLevanto(entorno.TECLA_IZQUIERDA)&& entorno.sePresiono('c')) {
+				BolaDeFuego.lanzarB(this.entorno);
 				BolaDeFuego.dibujar(this.entorno);
+				BolaDeFuego.mover(this.barras);
 			}
 	}	
 	
@@ -353,3 +355,4 @@ public class Juego extends InterfaceJuego
 		Juego juego = new Juego();
 	}
 }
+

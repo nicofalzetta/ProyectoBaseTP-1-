@@ -30,7 +30,9 @@ public class Pep {
 		this.radio = radio;
 	}
 	
-	
+	public double getDireccion() {
+		return direccion;
+	}
 	
 	public double getX() {
 		return x;
@@ -161,5 +163,3 @@ public class Pep {
 		
 	}
 		
-		
-
