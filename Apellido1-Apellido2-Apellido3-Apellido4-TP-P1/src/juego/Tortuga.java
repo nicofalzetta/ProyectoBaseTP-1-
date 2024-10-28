@@ -12,7 +12,6 @@ public class Tortuga{
 	private double radio;
 	private double velocidad;
 	private double escala;
-	private double desplazamiento;
 	private double direccion;
 	
 	//Array con las velocidades para cada tortuga
@@ -28,7 +27,6 @@ public class Tortuga{
 		this.y = y;
 		this.velocidad = VELOCIDADES[RANDOM.nextInt(VELOCIDADES.length)]; 
 		this.escala = escala;
-		this.desplazamiento = 0;
 		this.direccion = Math.random() > 0.5 ? 1 : -1;
 		
 	}
@@ -83,11 +81,6 @@ public class Tortuga{
 		return false;
 	}
 	
-	public void rebotar() {
-		this.desplazamiento = -this.desplazamiento;
-		this.y += this.desplazamiento;
-	}
-	
 	//Verifica la colision con una barra
 	public boolean colisionaConBarra(Barra barra) {
 		return(this.x > barra.getX() - barra.getAncho() / 2 &&
@@ -97,14 +90,13 @@ public class Tortuga{
 	}
 	
 	
-	//Metodo para hacer caer al gnomo
+	//Metodo para hacer caer a la tortuga
 	public void caer(Barra[] barras) {
 		this.y += 2;
 		
 		//Verifica si colisiona con alguna barra al caer
 		for (Barra barra : barras) {
 			if (this.colisionaConBarra(barra)) {
-				this.rebotar();
 				direccion *= -1;
 			}
 		}
@@ -122,6 +114,10 @@ public class Tortuga{
 		return radio;
 	}
 	public boolean colisionTortugaGnomo(Tortuga t, Gnomo g) {
+		// Verifica que g no sea null
+	    if (g == null) {
+	        return false; // No hay colisión si el gnomo es null
+	    }
 	    // Calcula la distancia entre los centros
 	    double deltaX = t.getX() - g.getX();
 	    double deltaY = t.getY() - g.getY();

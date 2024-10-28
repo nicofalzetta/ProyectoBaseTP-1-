@@ -24,9 +24,7 @@ public class Pep {
 		this.y = y;
 		this.angulo = angulo;
 		this.escala = escala;
-		this.velocidad = velocidad;
 		this.direccion = 0;
-		this.velocidadSalto = velocidadSalto;
 		this.radio = radio;
 	}
 	
@@ -137,6 +135,10 @@ public class Pep {
 			return false;
 		}
 		public boolean colisionPepGnomos(Pep p, Gnomo gnomo) {
+			 // Verifica que ambos objetos no sean nulos
+		    if (p == null || gnomo == null) {
+		        return false; // No hay colisión si alguno es nulo
+		    }
 		    // Calcula la distancia entre los centros
 		    double deltaX = p.getX() - gnomo.getX();
 		    double deltaY = p.getY() - gnomo.getY();

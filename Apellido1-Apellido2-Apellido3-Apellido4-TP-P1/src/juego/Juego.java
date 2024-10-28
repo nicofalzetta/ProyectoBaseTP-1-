@@ -1,8 +1,5 @@
 package juego;
 
-
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Image;
 import entorno.Entorno;
 import java.util.List;
@@ -18,14 +15,17 @@ public class Juego extends InterfaceJuego
 	// Variables y métodos propios de cada grupo
 	private Isla[] islas;
 	private Barra[] barras;
+	private Gnomo[] gnomos;
+	private Texto[] textos;
+	
 	private Casa casa;
 	private Paisaje paisaje;
 	private Pep pep;
-	private List<Gnomo> gnomos;
-	private Texto[] textos;
-	private List<Tortuga> tortugas;
-	private Object gnomo;
 	private bolaDeFuego BolaDeFuego;
+	private List<Tortuga> tortugas;
+	
+	private int contadorGnomosPerdidos = 0;
+	private int contadorGnomosSalvados = 0;
 	
 	Juego()
 	{
@@ -60,8 +60,8 @@ public class Juego extends InterfaceJuego
 		this.textos[5] = new Texto("Perdidos:",300,20); 
 		this.textos[6] = new Texto("0",365,20);       
 		//Gnomos Salvados:
-		this.textos[7] = new Texto("Faltan Rescatar:",480,20); 
-		this.textos[8] = new Texto("0",593,20);
+		this.textos[7] = new Texto("Rescatados:",480,20); 
+		this.textos[8] = new Texto("0",565,20);
 		//Gnomos Eliminados:
 		this.textos[9] = new Texto("Eliminados:",680,20); 
 		this.textos[10] = new Texto("0",760,20);
@@ -118,13 +118,19 @@ public class Juego extends InterfaceJuego
 		this.islas[14] = new Isla(ImagenIsla,400,100,0,0.22, 0.0);
 		
 		
-		//Inicializacion de Gnomo
-		this.gnomos = new ArrayList<>();
-		int numeroDeGnomos = (int) (Math.random() * 3) + 3;
-		for(int i = 0; i < numeroDeGnomos; i++) {
-			Gnomo gnomo = new Gnomo(Gnomo,200,50,0.04, 1);
-			this.gnomos.add(gnomo);
-		}
+		// Inicialización de gnomos
+		this.gnomos = new Gnomo[4]; // Define el tamaño del array
+		int numeroDeGnomos = (int) (Math.random() * 3) + 2; 
+		this.gnomos = new Gnomo[numeroDeGnomos];
+		        
+		for (int i = 0; i < numeroDeGnomos; i++) {
+		  double x = 400; 
+		  double y = 50; 
+		  double escala = 0.04;
+		  double radio = 1;
+		  gnomos[i] = new Gnomo(Gnomo, x, y, escala,radio); // Inicializar cada gnomo
+	}
+		
 		//Inicializacion de la Tortuga
 		this.tortugas = new ArrayList<>();
 		int numeroDeTortugas = (int) (Math.random() * 3) + 2;
@@ -216,14 +222,6 @@ public class Juego extends InterfaceJuego
 				}
 			}
 		}
-		//dibujo de los gnomos
-		for (Gnomo gnomo: gnomos)
-        {
-		   gnomo.dibujar(this.entorno);
-		   gnomo.mover(this.barras);
-		}  
-		
-		   
 		
 		//Movimiento de las casa
 		Casa c = this.casa;
@@ -239,7 +237,22 @@ public class Juego extends InterfaceJuego
 		  {
 					c.rebotarizquierda();
 		  }	
-		}	
+		}
+		
+		// Eliminar gnomos nulos si es necesario
+	 	Image imagenGnomo = Herramientas.cargarImagen("imagenes/gnomo.png");
+	    for (int i = 0; i < gnomos.length; i++) {
+	        if (gnomos[i] == null) {
+	            
+	            double x = 400; 
+	            double y = 50;
+	            double escala = 0.04;
+	            double radio = 1;
+	            gnomos[i] = new Gnomo(imagenGnomo, x, y, escala,radio); 
+	        }
+	    }
+	    
+	    
 		//Contadores en Pantalla:
 		//Tiempo del juego:
 
@@ -270,36 +283,56 @@ public class Juego extends InterfaceJuego
 			textos[1].dibujarTexto(entorno); // Dibuja el contador.
 		  }
 		}
-        //Gnomos Perdidos:
-		int Perdidos = 0;
-			textos[5].dibujarTexto(this.entorno);  // Dibuja el Texto en Pantalla/  
-	        textos[6].dibujarTexto(entorno);       // Dibuja el contador.
-	        for (Gnomo gnomo : gnomos)
-	        {
-	        	if (gnomo.getY() > 600) 
-		    {
-			   gnomo= null; // Guarda la referencia al gnomo que se perdió
-			   Perdidos++;
-			   textos[6].actualizarNumeroPerdidos(Perdidos);  // Actualiza el texto con el contador. 
-			}
-	        }
-	     //Gnomos Salvados:
-	        int Salvados = 0;
-			textos[7].dibujarTexto(this.entorno);  // Dibuja el Texto en Pantalla/
-		      // Actualiza el texto con el contador.   
-	        textos[8].dibujarTexto(entorno);       // Dibuja el contador.
-	        for (Gnomo gnomo : gnomos)
-	        {
-			 //Salvando Gnomos
-			   if (pep.colisionPepGnomos(pep, gnomo)) { // Maneja la colisión (por ejemplo, restar vida, eliminar el gnomo, etc.)
-				   textos[8].actualizarNumerodeSalvados(Salvados);
-				   gnomos.remove(gnomo);
+		
+		//Gnomos Perdidos:
+				for (int i = 0; i < gnomos.length; i++) {
+				    Gnomo gnomo = gnomos[i];
+
+				    // Verifica que el gnomo no sea null
+				    if (gnomo != null) {
+				        // Verifica si el gnomo ha desaparecido (ha caído)
+				        if (gnomo.desaparece(550)) {
+				            // Incrementa el contador de gnomos perdidos
+				            contadorGnomosPerdidos++;
+				            System.out.println("Gnomo perdido: " + contadorGnomosPerdidos); // Para depuración
+				            
+				            gnomos[i] = null; // Marca el gnomo como null al desaparecer
+				        } else {
+				            // Verifica la reaparición del gnomo
+				            gnomo.verificarReaparicion(); 
+
+				            // Solo dibuja el gnomo si es visible
+				            if (gnomo.estaVisible()) {
+				                gnomo.dibujar(this.entorno); // Dibuja el gnomo en pantalla
+				                gnomo.mover(this.barras); // Mueve el gnomo
+				            }
+				        }
+				    }
+				}
+
+				// Actualiza y dibuja el texto de gnomos perdidos
+				textos[6].actualizarNumeroPerdidos(contadorGnomosPerdidos);
+				textos[5].dibujarTexto(this.entorno);  // Dibuja el texto "Gnomos Perdidos"
+				textos[6].dibujarTexto(this.entorno); // Dibuja el contador de gnomos perdidos
 				    
-				   
-			   }
-			   Salvados++;
-			     
-			    }
+				    
+			      //Gnomos salvados:
+			        
+			        textos[7].dibujarTexto(this.entorno); // Dibuja el texto "Gnomos Salvados"
+			        textos[8].dibujarTexto(entorno);       // Dibuja el contador de gnomos salvados
+
+			        for (int i = 0; i < gnomos.length; i++) {
+			            Gnomo gnomo = gnomos[i];
+			            
+			            // Verifica que el gnomo no sea null y que haya colisión con `pep`
+			            if (gnomo != null && pep.colisionPepGnomos(pep, gnomo)) {
+			                contadorGnomosSalvados++; // Incrementa el contador solo si hubo colisión
+			                gnomos[i] = null; // Marca el gnomo como null para evitar contarlo de nuevo
+			            }
+			        }
+
+			        // Actualiza el texto del contador de gnomos salvados fuera del bucle
+			        textos[8].actualizarNumerodeSalvados(contadorGnomosSalvados);
 			   
 	        
 	     //Gnomos Eliminados:
@@ -318,7 +351,6 @@ public class Juego extends InterfaceJuego
 	     	
 	     	 if (tortuga.colisionTortugaGnomo(tortuga, gnomo)) //Maneja la colisión
 	     	  { 
-	     		gnomos.remove(gnomo);              //También puedes usar iterador aquí si prefieres
 	     		Eliminados++;
 	     		textos[10].actualizarNumero(Eliminados);  // Actualiza el texto con el contador.
 	          }
@@ -340,8 +372,6 @@ public class Juego extends InterfaceJuego
 	            }        
 	        }
 	      //Movimiento y dibujo de Pep y la bola de fuego
-			pep.dibujar(this.entorno);
-			pep.moverP(this.barras,entorno);
 			if (entorno.seLevanto(entorno.TECLA_IZQUIERDA)&& entorno.sePresiono('c')) {
 				BolaDeFuego.lanzarB(this.entorno);
 				BolaDeFuego.dibujar(this.entorno);

@@ -22,7 +22,6 @@ public class bolaDeFuego {
 			this.escala = escala;
 			this.velocidad = velocidad;
 			this.angulo = angulo;
-			this.direccion = direccion;
 			}
 		
 		public double getAngulo() {
