@@ -147,35 +147,6 @@ En el constructor de `Juego`, inicializamos un arreglo con la cantidad de textos
 Texto en pantalla: this.textos = new Texto[11]; y luego a cada arreglo le pasamos los variables de instancia
 con los valores pedidos por el constructor del objeto. this.textos[numero de array] = new Texto("texto",x,y);
 -----------------------------------------------------------------------------------------------------------------------------------------
-# `Isla`
-
-La clase `Isla` representa las islas que estan flotando en el juego, donde interactuan las tortugas, pep y los gnomos del entorno del juego.
-
-## Atributos
-- **`imagen`**: La imagen que representa visualmente a la isla.
-- **`x`, `y`**: Coordenadas de posición de la isla en el entorno.
-- **`Angulo`**: Angulo con el que ve en pantalla la imagen. 
-- **`escala`**: Escala de tamaño de la isla en relación con su imagen original.
-## Constructor
-
-### `public Isla(Image imagen, double x, double y, double angulo, double escala, double velocidad)`
-
-Inicializa el imagen en pantalla en la posición (`x` y `y`), con un angulo y una escala. el valor de estas variables son pasadas como parametros en la clase juego por medio de un Array.
-
-## Métodos de visivilidad y actualizacion del texto.
-
-- ### `public void dibujar(Entorno entorno)`
-  Nos muestra en pantalla la imagen de lista, los parametros desde la clase juego.
-
-
-## Implementación de la clase en `Juego`
-
-### Inicialización de Isla
- En el constructor de `Juego`, inicializamos un arreglo con la cantidad de islas para mostrar en pantalla. Previamente se guarda en una variable de tipo image la imagen a mostrar y por medio de un array se crean la cantidad de islas necesarias. 
-Imagen en pantalla: this.isla = new Isla[cant de arreglos]; y luego a cada arreglo le pasamos las variables de instancia
-con los valores pedidos por el constructor del objeto. this.isla[numero de array] = new Isla(imagen,x,y,escala,angulo);
- Luego en el metodo tick creamos la logica para que se muestren en pantalla las Islas donde transcurre el juego.
------------------------------------------------------------------------------------------------------------------------------------------
 # `Barra`
 
 La clase `Texto` representa el texto en pantalla en el juego, el cual nos muestra en tiempo real el tiempo real de juego, un contador con los gnomos salvados por pep, un contador con los gnomos perdidos al caer de la ultima isla y un contador de gnomos eliminados por las tortugas.
@@ -240,10 +211,8 @@ public Imagen(Image imagen, double x, double y, double angulo, double escala,dou
 ## Implementación de la clase en `Juego`
 
 ### Inicialización de Texto
-En el constructor de `Juego`, inicializamos el objeto imagen creando las variables casa y paisaje. En ambos casos les damos los parametros necesarios para que cumplan con el constructor previamente creado y luego en el metodo tick los mostramos por pantalla. 		
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+En el constructor de `Juego`, inicializamos el objeto imagen creando las variables casa, paisaje y ademas un array de la imagen isla. En cada caso les damos los parametros necesarios para que cumplan con el constructor previamente creado y luego en el metodo tick los mostramos por pantalla.		
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # `Pep`
 
 La clase `Pep` representa el objeto Pep, que es el caballero encargado de rescatar a los gnomos. Aparece en la pantalla del juego, es el encargado de rescatar los gnomos antes que caigan al vacio, o sean eliminados por tortugas, tiene la habilidad de tirar bolas de fuego que permiten eliminar a las tortugas.
