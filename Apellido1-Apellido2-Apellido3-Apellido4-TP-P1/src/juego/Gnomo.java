@@ -9,7 +9,7 @@ import entorno.Entorno;
 
 public class Gnomo {
 	private Image imagen;
-    private double x;
+	private double x;
     private double y;
     private double velocidad;
     private double escala;
@@ -17,12 +17,15 @@ public class Gnomo {
     private double direccion;
     private boolean estaVisible;
     private long tiempoDesaparicion; 
-	private static final double[] VELOCIDADES = {0.3,0.7,0.2,0.5};
+    private long tiempoUltimaColision; 
+    private static final double[] POSICIONESX = {390,400,350,450};
+	private static final double[] VELOCIDADES = {0.6,0.7,0.8,0.9};
+	private static final int TIEMPO_COOLDOWN = 1000; 
 	private static final Random RANDOM = new Random();
 	
-	public Gnomo(Image imagen, double x, double y, double escala,double radio) {
+	public Gnomo(Image imagen, double y, double escala,double radio) {
 		 this.imagen = imagen;
-	     this.x = x;
+	     this.x = POSICIONESX [RANDOM.nextInt(POSICIONESX.length)];
 	     this.y = y;
 	     this.velocidad = VELOCIDADES[RANDOM.nextInt(VELOCIDADES.length)]; 
 	     this.escala = escala;
@@ -30,6 +33,7 @@ public class Gnomo {
 	     this.direccion = Math.random() > 0.5 ? 1 : -1;
 	     this.estaVisible = true;
 	     this.radio = radio;
+	     this.tiempoUltimaColision = 0;
 	}
 
     public boolean desaparece(double limiteAltura) {
@@ -44,8 +48,7 @@ public class Gnomo {
         return System.currentTimeMillis() - tiempoDesaparicion >= 2000; // 2 segundos para reaparecer
     }
 
-    public void reaparcer(double x, double y) {
-        this.x = x;
+    public void reaparcer( double y) {
         this.y = y;
         this.tiempoDesaparicion = 0; // Reiniciar tiempo
     }
@@ -119,7 +122,37 @@ public class Gnomo {
 				 }
 			 }
 		 }
+	 
+	 //Colision entren gnomos
+	 public boolean colisionConGnomo(Gnomo otroGnomo) {
+		    // Verifica que el otro gnomo no sea null
+		    if (otroGnomo == null) {
+		        return false;
+		    }
 
+		    // Calcula la distancia entre los centros de ambos gnomos
+		    double deltaX = this.x - otroGnomo.getX();
+		    double deltaY = this.y - otroGnomo.getY();
+		    double distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+		    // Suma de los radios de ambos gnomos
+		    double sumaRadios = this.radio + otroGnomo.getRadio();
+		    
+		    // Obtiene el tiempo actual
+		    long tiempoActual = System.currentTimeMillis();
+
+		    // Si la distancia es menor que la suma de los radios y ha pasado el tiempo de cooldown
+		    if (distancia < sumaRadios && (tiempoActual - this.tiempoUltimaColision >= TIEMPO_COOLDOWN)) {
+		        this.tiempoUltimaColision = tiempoActual; // Actualiza el tiempo de la última colisión
+		        otroGnomo.tiempoUltimaColision = tiempoActual; // También para el otro gnomo
+		        return true;
+		    }
+
+		    return false;
+	 }
+	 public void invertirDireccion() {
+		    this.direccion *= -1;
+		}
 	
     // Getters
     

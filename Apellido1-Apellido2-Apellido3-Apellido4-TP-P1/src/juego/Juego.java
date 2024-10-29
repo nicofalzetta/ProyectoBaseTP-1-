@@ -125,11 +125,10 @@ public class Juego extends InterfaceJuego
 		this.gnomos = new Gnomo[numeroDeGnomos];
 		        
 		for (int i = 0; i < numeroDeGnomos; i++) {
-		  double x = 100; 
 		  double y = 50; 
 		  double escala = 0.04;
 		  double radio = 1;
-		  gnomos[i] = new Gnomo(Gnomo, x, y, escala,radio); // Inicializar cada gnomo
+		  gnomos[i] = new Gnomo(Gnomo, y, escala,radio); // Inicializar cada gnomo
 	}
 		
 		//Inicializacion de la Tortuga
@@ -249,7 +248,7 @@ public class Juego extends InterfaceJuego
 	            double y = 50;
 	            double escala = 0.04;
 	            double radio = 1;
-	            gnomos[i] = new Gnomo(imagenGnomo, x, y, escala,radio); 
+	            gnomos[i] = new Gnomo(imagenGnomo, y, escala,radio); 
 	        }
 	    }
 	    
@@ -285,6 +284,25 @@ public class Juego extends InterfaceJuego
 		  }
 		}
 		
+		for (int i = 0; i < gnomos.length; i++) {
+			Gnomo gnomo = gnomos[i];
+			
+			// Asegurarse de que el gnomo no sea null
+			if (gnomo != null) {
+				for (int j = i + 1; j < gnomos.length; j++) {
+					Gnomo otroGnomo = gnomos[j];
+					
+					// Asegurarse de que el otro gnomo no sea null
+					if (otroGnomo != null && gnomo.colisionConGnomo(otroGnomo)) {
+						// Invertir la dirección de ambos gnomos
+						gnomo.invertirDireccion();
+						otroGnomo.invertirDireccion();
+					}
+				}
+			}
+		}
+		
+		
 		//Gnomos Perdidos:
 				for (int i = 0; i < gnomos.length; i++) {
 				    Gnomo gnomo = gnomos[i];
@@ -308,6 +326,7 @@ public class Juego extends InterfaceJuego
 				        }
 				    }
 				}
+				
 
 				//Actualiza y dibuja el texto de gnomos perdidos
 				textos[6].actualizarNumeroPerdidos(contadorGnomosPerdidos);
