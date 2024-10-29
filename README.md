@@ -16,62 +16,94 @@ Este es un juego de plataforma en Java en el que nuestro protagonista el caballe
 # Clases
 # `Gnomo`
 
-La clase `Gnomo` representa un personaje en el juego que tiene capacidades de movimiento, visibilidad controlada y detección de colisiones. 
+La clase `Gnomo` representa un personaje en el juego, diseñado para moverse, colisionar con barras, interactuar con otros gnomos, y desaparecer o reaparecer según ciertas condiciones. A continuación se detallan todos los métodos y atributos de esta clase, sus funcionalidades y su lógica de implementación.
+
+
 
 ## Atributos
 
-- **`imagen`**: La imagen que representa visualmente al gnomo.
-- **`x`, `y`**: Coordenadas de posición del gnomo en el entorno.
-- **`velocidad`**: La velocidad a la que el gnomo se mueve en el eje x.
-- **`escala`**: Escala de tamaño del gnomo en relación con su imagen original.
-- **`desplazamiento`**: Controla el desplazamiento en el movimiento del gnomo.
-- **`direccion`**: Indica la dirección del movimiento: 1 para derecha y -1 para izquierda.
-- **`tiempoDesaparicion`**: Registra el momento en que el gnomo desaparece.
-- **`estaVisible`**: Indica si el gnomo está visible en el entorno.
-- **`VELOCIDADES`**: Array que contiene velocidades posibles para cada gnomo.
-- **`RANDOM`**: Genera números aleatorios para asignar una velocidad aleatoria a cada gnomo.
+- **`imagen`**: La imagen que representa visualmente al gnomo en pantalla.
+- **`x`**: La coordenada X del gnomo en el entorno de juego.
+- **`y`**: La coordenada Y del gnomo en el entorno de juego.
+- **`velocidad`**: Define la velocidad de movimiento del gnomo.
+- **`escala`**: Factor de escala que ajusta el tamaño de la imagen.
+- **`radio`**: Radio de colisión que permite detectar interacciones con otros objetos.
+- **`direccion`**: Determina la dirección de movimiento, donde 1 es hacia la derecha y -1 es hacia la izquierda.
+- **`estaVisible`**: Indica si el gnomo está visible en el entorno de juego.
+- **`tiempoDesaparicion`**: Almacena el tiempo de la última desaparición.
+- **`tiempoUltimaColision`**: Almacena el tiempo de la última colisión con otro gnomo.
+- **`POSICIONESX`**: Array de posiciones iniciales en X para generar variedad en la posición de aparición de los gnomos.
+- **`VELOCIDADES`**: Array de velocidades iniciales que se asignan aleatoriamente a los gnomos.
+- **`TIEMPO_COOLDOWN`**: Tiempo de espera en milisegundos entre colisiones.
+- **`RANDOM`**: Generador de números aleatorios para establecer posiciones y velocidades aleatorias.
+
+---
 
 ## Constructor
 
-### `public Gnomo(Image imagen, double x, double y, double escala)`
+### `Gnomo(Image imagen, double y, double escala, double radio)`
 
-Inicializa un gnomo con su imagen, posición (`x` y `y`), escala y una velocidad aleatoria tomada del array `VELOCIDADES`. La dirección inicial se establece aleatoriamente como izquierda o derecha.
+Inicializa un gnomo con los valores dados, asignándole una posición en X y una velocidad de forma aleatoria. También configura su visibilidad como `true` y establece una dirección inicial aleatoria.
 
-## Métodos de Movimiento y Colisión
+---
 
-- ### `boolean estaSobreBarra(Barra[] barras)`
-  
-  Comprueba si el gnomo está sobre alguna de las barras en el array `barras`. Retorna `true` si está sobre una barra, `false` en caso contrario.
+## Métodos
 
-- ### `boolean colisionaConBarra(Barra barra)`
-  
-  Verifica si el gnomo está en contacto con una barra específica, lo que se usa para invertir la dirección si colisiona. Retorna `true` en caso de colisión.
+### `desaparece(double limiteAltura)`
 
-- ### `void caer(Barra[] barras)`
+Determina si el gnomo cayó más allá de un límite de altura (`limiteAltura`). Si `y` es mayor que `limiteAltura`, el gnomo debe desaparecer.  
+**Retorno**: `boolean` - `true` si el gnomo cayó y debe desaparecer.
 
-  Realiza el movimiento de caída del gnomo incrementando su posición `y`. Si colisiona con una barra mientras cae, invierte la dirección en `x`.
+### `desaparecer()`
 
-- ### `void mover(Barra[] barras)`
+Marca el tiempo actual como el momento de desaparición del gnomo.
 
-  Controla el movimiento general del gnomo. Si no está sobre una barra, el gnomo cae; si está sobre una barra, se mueve horizontalmente en la dirección establecida, y se asegura de no salir de los límites de la pantalla.
+### `necesitaReaparicion()`
 
-## Métodos de Desaparición y Reaparición
+Evalúa si el gnomo estuvo desaparecido por más de 2 segundos y, por lo tanto, necesita reaparecer.  
+**Retorno**: `boolean` - `true` si el gnomo debe reaparecer.
 
-- ### `boolean desaparece(double limiteAltura)`
+### `reaparecer(double y)`
 
-  Comprueba si la posición `y` del gnomo supera un límite especificado (`limiteAltura`), indicando que debe desaparecer. Retorna `true` si ha excedido el límite.
+Restaura la posición `y` del gnomo para que reaparezca en el entorno y restablece el temporizador de desaparición.
 
-- ### `void desaparecer()`
+### `estaVisible()`
 
-  Oculta el gnomo estableciendo `estaVisible` en `false` y registra el tiempo de desaparición en `tiempoDesaparicion`.
+Devuelve el estado de visibilidad del gnomo.  
+**Retorno**: `boolean` - `true` si el gnomo está visible.
 
-- ### `void verificarReaparicion()`
+### `estaSobreBarra(Barra[] barras)`
 
-  Verifica si han pasado 2 segundos desde la desaparición del gnomo. Si es así, lo vuelve visible y lo reposiciona en las coordenadas iniciales (`x = 400`, `y = 50`).
+Verifica si el gnomo está encima de alguna de las barras, a partir en su posición `y` y `x` en relación con las dimensiones de las barras.  
+**Retorno**: `boolean` - `true` si el gnomo está sobre una barra.
 
-- ### `boolean estaVisible()`
-  
-  Retorna `true` si el gnomo es visible, `false` si no lo es.
+### `colisionaConBarra(Barra barra)`
+
+Determina si el gnomo colisiona con una barra específica cuando se compara sus posiciones.  
+**Retorno**: `boolean` - `true` si hay colisión con la barra.
+
+### `caer(Barra[] barras)`
+
+Simula el efecto de caída del gnomo, se aumenta su coordenada `y` . Si colisiona con una barra mientras cae, invierte su dirección horizontal.
+
+### `verificarReaparicion()`
+
+Si el gnomo no está visible, lo reaparece en una posición inicial específica `(x=400, y=50)`.
+
+### `mover(Barra[] barras)`
+
+Mueve el gnomo en la dirección indicada, pero si no está sobre una barra, simula una caída. Verifica que el gnomo no salga del área de juego, invirtiendo la dirección al llegar a los límites.
+
+### `colisionConGnomo(Gnomo otroGnomo)`
+
+Verifica si ocurre una colisión con otro gnomo basándose en sus posiciones y radios de colisión. También incluye un "cooldown" para evitar múltiples colisiones en un corto período de tiempo.  
+**Retorno**: `boolean` - `true` si colisiona con otro gnomo y se cumple el tiempo de cooldown.
+
+### `invertirDireccion()`
+
+Invierte la dirección horizontal del gnomo, útil para responder a colisiones.
+
+---
 
 ## Implementación de la clase en `Juego`
 
