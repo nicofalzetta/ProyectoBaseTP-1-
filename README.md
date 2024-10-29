@@ -170,10 +170,11 @@ Inicializa el imagen en pantalla en la posición (`x` y `y`), con un angulo y un
 
 ## Implementación de la clase en `Juego`
 
-### Inicialización de Texto
-En el constructor de `Juego`, inicializamos un arreglo con la cantidad de islas para mostrar en pantalla. Previamente se guarda en una variable de tipo image la imagen a mostrar y por medio de un array se crean la cantidad de islas necesarias. 
+### Inicialización de Isla
+ En el constructor de `Juego`, inicializamos un arreglo con la cantidad de islas para mostrar en pantalla. Previamente se guarda en una variable de tipo image la imagen a mostrar y por medio de un array se crean la cantidad de islas necesarias. 
 Imagen en pantalla: this.isla = new Isla[cant de arreglos]; y luego a cada arreglo le pasamos las variables de instancia
 con los valores pedidos por el constructor del objeto. this.isla[numero de array] = new Isla(imagen,x,y,escala,angulo);
+ Luego en el metodo tick creamos la logica para que se muestren en pantalla las Islas donde transcurre el juego.
 -----------------------------------------------------------------------------------------------------------------------------------------
 # `Barra`
 
@@ -207,14 +208,16 @@ Inicializa el texto en pantalla en la posición (`x` y `y`).
 
 ## Implementación de la clase en `Juego`
 
-### Inicialización de Texto
-En el constructor de `Juego`, inicializamos un arreglo con la cantidad de textos para mostrar en pantalla. 
+### Inicialización de Barra
+ En el constructor de `Juego`, inicializamos un arreglo con la cantidad de textos para mostrar en pantalla. 
 Texto en pantalla: this.textos = new Texto[11]; y luego a cada arreglo le pasamos los variables de instancia
 con los valores pedidos por el constructor del objeto. this.textos[numero de array] = new Texto("texto",x,y);
+ Luego en el metodo tick creamos la logica para que se muestren en pantalla las barras debajo de las islas que
+ serian la parte fisica donde se sostendrian todos los objetos que interactuan en el juego
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# `Casa`
+# `Imagen`
 
-La clase `Casa` representa el objeto casa que aparece en la pantalla del juego, de ella salen los gnomos que van cayendo hacia las islas quie estan por debajo.
+La clase `Imagen` representa el objeto imagen que aparece en la pantalla del juego. El mismo esta instanciado para ser usado tanto en casa como en paisaje.
 
 ## Atributos
 - **`Texto`**: El texto que se muestra en pantalla.
@@ -225,9 +228,9 @@ La clase `Casa` representa el objeto casa que aparece en la pantalla del juego, 
 
 ## Constructor
 
-public Casa(Image imagen, double x, double y, double angulo, double escala,double velocidad)
+public Imagen(Image imagen, double x, double y, double angulo, double escala,double velocidad)
 
- Construye el objeto casa con los valores de instancia que recibe desde la clase juego cuando se lo inicializa desde ella. 
+ Construye el objeto Imagen con los valores de instancia que recibe desde la clase juego cuando se lo inicializa desde ella. 
 
 ## Métodos de visivilidad y actualizacion del texto.
 
@@ -237,6 +240,6 @@ public Casa(Image imagen, double x, double y, double angulo, double escala,doubl
 ## Implementación de la clase en `Juego`
 
 ### Inicialización de Texto
-En el constructor de `Juego`, inicializamos el objeto casa y le damos los parametros necesarios que cumplan con el constructor previamente creado. 		
+En el constructor de `Juego`, inicializamos el objeto imagen creando las variables casa y paisaje. En ambos casos les damos los parametros necesarios para que cumplan con el constructor previamente creado y luego en el metodo tick los mostramos por pantalla. 		
   
   
