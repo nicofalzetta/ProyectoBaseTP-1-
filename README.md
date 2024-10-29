@@ -109,7 +109,7 @@ Invierte la dirección horizontal del gnomo, útil para responder a colisiones.
 
 ### Inicialización de los Gnomos
 En el constructor de `Juego`, inicializamos una lista de gnomos que se instancian de manera aleatoria para crear entre 2 y 4 gnomos en cada inicio del juego.
-
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # `Texto`
 
 La clase `Texto` representa el texto en pantalla en el juego, el cual nos muestra en tiempo real el tiempo real de juego, un contador con los gnomos salvados por pep, un contador con los gnomos perdidos al caer de la ultima isla y un contador de gnomos eliminados por las tortugas.
@@ -170,10 +170,11 @@ Inicializa el imagen en pantalla en la posición (`x` y `y`), con un angulo y un
 
 ## Implementación de la clase en `Juego`
 
-### Inicialización de Texto
-En el constructor de `Juego`, inicializamos un arreglo con la cantidad de islas para mostrar en pantalla. Previamente se guarda en una variable de tipo image la imagen a mostrar y por medio de un array se crean la cantidad de islas necesarias. 
+### Inicialización de Isla
+ En el constructor de `Juego`, inicializamos un arreglo con la cantidad de islas para mostrar en pantalla. Previamente se guarda en una variable de tipo image la imagen a mostrar y por medio de un array se crean la cantidad de islas necesarias. 
 Imagen en pantalla: this.isla = new Isla[cant de arreglos]; y luego a cada arreglo le pasamos las variables de instancia
 con los valores pedidos por el constructor del objeto. this.isla[numero de array] = new Isla(imagen,x,y,escala,angulo);
+ Luego en el metodo tick creamos la logica para que se muestren en pantalla las Islas donde transcurre el juego.
 -----------------------------------------------------------------------------------------------------------------------------------------
 # `Barra`
 
@@ -207,48 +208,177 @@ Inicializa el texto en pantalla en la posición (`x` y `y`).
 
 ## Implementación de la clase en `Juego`
 
-### Inicialización de Texto
-En el constructor de `Juego`, inicializamos un arreglo con la cantidad de textos para mostrar en pantalla. 
+### Inicialización de Barra
+ En el constructor de `Juego`, inicializamos un arreglo con la cantidad de textos para mostrar en pantalla. 
 Texto en pantalla: this.textos = new Texto[11]; y luego a cada arreglo le pasamos los variables de instancia
 con los valores pedidos por el constructor del objeto. this.textos[numero de array] = new Texto("texto",x,y);
+ Luego en el metodo tick creamos la logica para que se muestren en pantalla las barras debajo de las islas que
+ serian la parte fisica donde se sostendrian todos los objetos que interactuan en el juego
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# `Imagen`
 
-# `Casa`
-
-La clase `Texto` representa el texto en pantalla en el juego, el cual nos muestra en tiempo real el tiempo real de juego, un contador con los gnomos salvados por pep, un contador con los gnomos perdidos al caer de la ultima isla y un contador de gnomos eliminados por las tortugas.
+La clase `Imagen` representa el objeto imagen que aparece en la pantalla del juego. El mismo esta instanciado para ser usado tanto en casa como en paisaje.
 
 ## Atributos
 - **`Texto`**: El texto que se muestra en pantalla.
 - **`x`, `y`**: Coordenadas de posición del texto en el entorno.
+- **`velocidad`**: Define la velocidad de movimiento del gnomo.
+- **`escala`**: Factor de escala que ajusta el tamaño de la imagen.
+- **`angulo`**: Factor de angulo que ajusta el angulo de la imagen.
+
 ## Constructor
 
-### `public Texto(String texto,double x, double y)`
+public Imagen(Image imagen, double x, double y, double angulo, double escala,double velocidad)
 
-Inicializa el texto en pantalla en la posición (`x` y `y`).
+ Construye el objeto Imagen con los valores de instancia que recibe desde la clase juego cuando se lo inicializa desde ella. 
 
 ## Métodos de visivilidad y actualizacion del texto.
 
-- ### `public void dibujarTexto(Entorno entorno)`
-  Nos muestra en pantalla el texto solicitado en la clase juego, pudiendo definir desde este metodo la fuente, el tamaño y el color de la letra.
-
-- ### `public void actualizarNumerodeTiempo(int numero)`
-  Actualiza constantemente el texto en pantalla que controla el tiempo con el nuevo valor numerico pasado como un parametro en la clase juego .
-
-- ### `public void actualizarNumeroPerdidos(int numero) `
-  Actualiza constantemente el texto en pantalla que controla el valor de los gnomos perdidos, con el nuevo valor numerico pasado como un parametro en la clase juego.
-
-- ### `public void actualizarNumerodeEliminados(int numero)`
- Actualiza constantemente el texto en pantalla que controla el valor de los gnomos eliminados por las tortugas, con el nuevo valor numerico pasado como un parametro en la clase juego.
-
-- ### `public void actualizarNumerodeSalvados(int numero)`
- Actualiza constantemente el texto en pantalla que controla el valor de los gnomos salvados por pep, con el nuevo valor numerico pasado como un parametro en la clase juego.
+- ### `public void dibujar(Entorno entorno) `
+  Nos muestra en pantalla la casa inicializada en la clase juego.
 
 ## Implementación de la clase en `Juego`
 
 ### Inicialización de Texto
-En el constructor de `Juego`, inicializamos un arreglo con la cantidad de textos para mostrar en pantalla. 
-Texto en pantalla: this.textos = new Texto[11]; y luego a cada arreglo le pasamos los variables de instancia
-con los valores pedidos por el constructor del objeto. this.textos[numero de array] = new Texto("texto",x,y);
+En el constructor de `Juego`, inicializamos el objeto imagen creando las variables casa y paisaje. En ambos casos les damos los parametros necesarios para que cumplan con el constructor previamente creado y luego en el metodo tick los mostramos por pantalla. 		
 
-		
-  
-  
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# `Pep`
+
+La clase `Pep` representa el objeto Pep, que es el caballero encargado de rescatar a los gnomos. Aparece en la pantalla del juego, es el encargado de rescatar los gnomos antes que caigan al vacio, o sean eliminados por tortugas, tiene la habilidad de tirar bolas de fuego que permiten eliminar a las tortugas.
+
+## Atributos
+- **`imagen`**: La imagen que representa visualmente a Pep.
+- **`x`, `y`**: Coordenadas de posición de inicio de Pep en el entorno.
+- **`Angulo`**: Angulo con el que ve en pantalla la imagen. 
+- **`escala`**: Escala de tamaño de Pep en relación con su imagen original.
+- **`velocidad`**: Velocidad a la que se mueve Pep en el entorno.
+- **`direccion`**: Direccion en la que seran disparadas las bolas de fuego.
+- **`radio`**: Radio del objeto para permitir la colision con los otros.
+
+## Constructor
+
+public Pep(Image imagen,double x, double y, double angulo, double escala, double radio)
+
+ Construye el objeto Pep con los valores de instancia que recibe desde la clase juego cuando se lo inicializa desde ella. 
+
+## Métodos
+
+### `estaPresionada(char key)`
+
+Determina si se esta presionando la tecla de movimiento.
+**Retorno**: `boolean` - `true` nos devuelve si se esta presionando la tecla y Pep se debe mover.
+
+### `sePresiono(char key)`
+
+Determina si se presiono la tecla de disparo.
+**Retorno**: `boolean` - `true` nos devuelve si se presiono la tecla y Pep debe lanzar la bola de fuego.
+
+### `moverP Barra[] barras, Entorno entorno`
+
+Nos indica la tecla que se esta presionando y para donde debe moverse Pep, al mismo tiempo le da la velocidad al movimiento.
+
+### `colisionaConBarra (Barra barra)`
+
+**Retorno**: `boolean` - `true` nos devuelve si Pep esta colisionando con alguna barra.
+
+### `caer (Barra[] barras)`
+
+Simula el efecto de caída de Pep, se aumenta su coordenada `y` . Si colisiona con una barra mientras cae, invierte su dirección horizontal.
+
+### `public void dibujar(Entorno entorno) `
+
+Nos muestra en pantalla a Pep inicializado en la clase juego.
+
+### `rebotar ()`
+
+Devuelve la velocidad y cambia la direccion para generar el rebote.
+
+
+### `estaSobreBarra(Barra[] barras)`
+
+Verifica si el gnomo está encima de alguna de las barras, a partir en su posición `y` y `x` en relación con las dimensiones de las barras.  
+**Retorno**: `boolean` - `true` si el gnomo está sobre una barra.
+
+### `colisionaConBarra(Barra barra)`
+
+Determina si Pep colisiona con una barra específica cuando se compara sus posiciones.  
+**Retorno**: `boolean` - `true` si hay colisión con la barra.
+**Retorno**: `boolean` - `false` si no colisiona con ninguna barra.
+
+### `colisionPepGnomos(Pep p Gnomo gnomo)`
+
+Verifica si ocurre una colision con un gnomo, calculando la posicion y la distancia entre Pep y el Gnomo con sus radios, si la distancia es menor entonces ocurre la colision.
+
+### `colisionPepTortugas(Pep p Tortuga T)`
+
+Verifica si ocurre una colision con una tortuga, calculando la posicion y la distancia entre Pep y la tortuga con sus radios, si la distancia es menor entonces ocurre la colision.
+
+
+### `velocidadCeroPep()`
+
+setea la velocidad de Pep en 0.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Implementación de la clase en `Juego`
+
+### Inicialización de Pep
+En el constructor de `Juego`, inicializamos el objeto Pep y le damos los parametros necesarios que cumplan con el constructor previamente creado. 	
+
+---
+
+# `bolaDeFuego`
+
+La clase `bolaDeFuego` representa el objeto de la bola de fuego, este es el proyectil que arroja el caballero `Pep` y se encarga de eliminar a las tortugas.
+
+## Atributos
+- **`imagen`**: La imagen que representa visualmente a la bola de fuego.
+- **`x`, `y`**: Coordenadas de posición de inicio de bola de fuego en el entorno.
+- **`escala`**: Escala de tamaño de la bola de fuego en relación con su imagen original.
+- **`velocidad`**: Velocidad a la que se mueve la bola de fuego en el entorno.
+-  **`Angulo`**: Angulo con el que se la ve en pantalla a la imagen. 
+- **`radio`**: Radio del objeto para permitir la colision con los otros.
+
+## Constructor
+
+public bolaDeFuego(Image imagen,double x, double y, double escala, double angulo, double velocidad, double radio)
+
+ Construye el objeto bolaDeFuego con los valores de instancia que recibe desde la clase juego cuando se lo inicializa desde ella. 
+
+## Métodos
+### `mover()`
+
+Nos devuelve para el lado que se va a mover la bola de fuego y le agrega la velocidad.
+
+### `sePresiono (char key)`
+
+Indica si fue presionada la tecla y nos retorna true.
+
+### `seLevanto (char key)`
+
+Indica si fue soltada la tecla y nos retorna true.
+
+### `iniciar (int velocidad)`
+
+Sirve para iniciar el movimiento de la bola de fuego, le da velocidad.
+
+### `public void dibujar(Entorno entorno) `
+
+Nos muestra en pantalla a la bola de fuego inicializada en la clase juego.
+
+### Boolean `lanzarB(Entorno entorno) `
+
+Nos devuelve `true` segun la tecla que se haya levantado y si luego se apreto la tecla de disparo, dispara la bola de fuego para el lado que corresponde.
+
+### `colisionBoladeFuegoTortuga(bolaDeFuego f Tortuga T)`
+
+Verifica si ocurre una colision con una tortuga, calculando la posicion y la distancia entre la bola de fuego y la tortuga con sus radios, si la distancia es menor entonces ocurre la colision.
+
+## Implementación de la clase en `Juego`
+
+### Inicialización de bolaDeFuego
+En el constructor de `Juego`, inicializamos el objeto bolaDeFuego y generamos la aparicion si se dan las condiciones solicitadas en los metodos instanciados en la clase.
+
+---  
