@@ -332,7 +332,7 @@ public class Juego extends InterfaceJuego
 				textos[6].actualizarNumeroPerdidos(contadorGnomosPerdidos);
 				textos[5].dibujarTexto(this.entorno);  
 				textos[6].dibujarTexto(this.entorno); 
-				    
+
 				    
 			    //Gnomos salvados:     
 			    textos[7].dibujarTexto(this.entorno); 
