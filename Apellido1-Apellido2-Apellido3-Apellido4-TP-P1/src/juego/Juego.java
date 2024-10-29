@@ -284,6 +284,7 @@ public class Juego extends InterfaceJuego
 		  }
 		}
 		
+		//Colision entre gnomos
 		for (int i = 0; i < gnomos.length; i++) {
 			Gnomo gnomo = gnomos[i];
 			
