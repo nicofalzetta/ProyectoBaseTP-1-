@@ -17,11 +17,13 @@ public class Juego extends InterfaceJuego
 	private Barra[] barras;
 	private Gnomo[] gnomos;
 	private Texto[] textos;
+    private bolaDeFuego[] BolasDeFuego;
+    private int numeroBolas; // Contador de bolas de fuego activas
+    private final int MAX_BOLAS = 10; // Número máximo de bolas de fuego
 	
 	private Casa casa;
 	private Paisaje paisaje;
 	private Pep pep;
-	private bolaDeFuego BolaDeFuego;
 	private List<Tortuga> tortugas;
 	
 	private int contadorGnomosPerdidos = 0;
@@ -39,7 +41,7 @@ public class Juego extends InterfaceJuego
 		Image Gnomo = Herramientas.cargarImagen("imagenes/gnomo.png");
 		Image Pep = Herramientas.cargarImagen("Imagenes/Pep.png");
 		Image Tortuga = Herramientas.cargarImagen("imagenes/tortuga.png");
-		Image bolaDeFuego = Herramientas.cargarImagen("Imagenes/bolaDeFuego.png");
+		
 		
 		
 		//Paisaje de Fondo:
@@ -48,7 +50,7 @@ public class Juego extends InterfaceJuego
 		
 		//texto en pantalla:
 		
-		this.textos = new Texto[11];
+		this.textos = new Texto[12];
 		
 		//Contador de tiempo:
 		
@@ -66,7 +68,7 @@ public class Juego extends InterfaceJuego
 		//Gnomos Eliminados:
 		this.textos[9] = new Texto("Eliminados:",680,20); 
 		this.textos[10] = new Texto("0",760,20);
-		
+		this.textos[11] = new Texto("Game Over",400,300);
 		//Casa sobre las islas:
 		
 		this.casa = new Casa(casa,400,60,0,0.02,0.0);
@@ -81,10 +83,10 @@ public class Juego extends InterfaceJuego
 		this.barras[3] = new Barra(550,530,121,21, 0);
 		this.barras[4] = new Barra(700,530,121,21, 0);
 		//Segunda Fila:
-		this.barras[5] = new Barra(150,430,143,24, 0);
-		this.barras[6] = new Barra(320,430,143,24, 0);
-		this.barras[7] = new Barra(490,430,143,24, 0);
-		this.barras[8] = new Barra(660,430,143,24, 0);
+		this.barras[5] = new Barra(150,430,130,24, 0);
+		this.barras[6] = new Barra(320,430,130,24, 0);
+		this.barras[7] = new Barra(490,430,130,24, 0);
+		this.barras[8] = new Barra(660,430,130,24, 0);
 		//Tercera Fila:
 		this.barras[9]  = new Barra(200,310,150,20, 0);
 		this.barras[10] = new Barra(400,310,150,20, 0);
@@ -104,10 +106,10 @@ public class Juego extends InterfaceJuego
 		this.islas[3] = new Isla(ImagenIsla,550,530,0,0.18, 0);
 		this.islas[4] = new Isla(ImagenIsla,700,530,0,0.18, 0);
 		//Segunda Fila:
-		this.islas[5] = new Isla(ImagenIsla,150,430,0,0.21, 0);
-		this.islas[6] = new Isla(ImagenIsla,320,430,0,0.21, 0);
-		this.islas[7] = new Isla(ImagenIsla,490,430,0,0.21, 0);
-		this.islas[8] = new Isla(ImagenIsla,660,430,0,0.21, 0);
+		this.islas[5] = new Isla(ImagenIsla,150,430,0,0.19, 0);
+		this.islas[6] = new Isla(ImagenIsla,320,430,0,0.19, 0);
+		this.islas[7] = new Isla(ImagenIsla,490,430,0,0.19, 0);
+		this.islas[8] = new Isla(ImagenIsla,660,430,0,0.19, 0);
 		//Tercera Fila:
 		this.islas[9]  = new Isla(ImagenIsla,200,310,0,0.22, 0);
 		this.islas[10] = new Isla(ImagenIsla,400,310,0,0.22, 0);
@@ -143,10 +145,11 @@ public class Juego extends InterfaceJuego
 		this.pep = new Pep(Pep,100,500,0,0.1,1);
 		
 		//Inicio BolaDeFuego
-		this.BolaDeFuego = new bolaDeFuego(bolaDeFuego,pep.getX(),pep.getY(),0.05,0,1);
+		BolasDeFuego = new bolaDeFuego[MAX_BOLAS];
+        numeroBolas = 0;
+		
 
-
-		// Inicia el juego!
+      // Inicia el juego!
 		this.entorno.iniciar();
 	   }
 	/**
@@ -341,51 +344,101 @@ public class Juego extends InterfaceJuego
 			     // Movimiento y dibujo de las tortugas
 			     for (Tortuga tortuga : tortugas) {
 			    	 
-			    	 //int SpawnTortuga = (entorno.tiempo())/1000;
-			    	 //for (int i = SpawnTortuga ; i < 60 ; i++) {
-			    		 tortuga.dibujar(this.entorno);
-			    		 tortuga.mover(this.barras);
-			    	// }
-			    		 
-			    	 
+			    	 tortuga.dibujar(this.entorno);
+		    		 tortuga.mover(this.barras);
+
 			         for (int i = 0; i < gnomos.length; i++) {
 			             Gnomo gnomo = gnomos[i];
 			             
 			             // Verifica que el gnomo no sea null antes de chequear la colisión
-			             if (gnomo != null && tortuga.colisionTortugaGnomo(tortuga, gnomo)) { 
-			            	 contadorGnomosEliminados++; // Incrementa el contador al eliminar un gnomo
-			                 gnomos[i] = null; // Elimina el gnomo estableciendo su posición como null
-			             }
+			         if (gnomo != null && tortuga.colisionTortugaGnomo(tortuga, gnomo)) { 
+			           	 contadorGnomosEliminados++; // Incrementa el contador al eliminar un gnomo
+			             gnomos[i] = null; // Elimina el gnomo estableciendo su posición como null
 			         }
+			        	
+			         
+			         if (pep.colisionPepTortugas(pep, tortuga)){
+			        	 for (Tortuga tortuga1 : tortugas) {
+			        	 tortuga1.velocidadCeroTortuga();
+			        	 }
+			             gnomo.velocidadCeroGnomo();
+			        	 pep.velocidadCeroPep();
+			        	 textos[11].dibujarTexto(this.entorno);
+			         } 
+			        	               
+			         }  
+			          	
+				        
 			     }                                 
 			     textos[10].actualizarNumero(contadorGnomosEliminados);  // Actualiza el texto del contador  
-	      
-	     	
-	     //Movimiento y dibujo de Pep
+
+			//Movimiento y dibujo de Pep
 	        Pep p = this.pep;
 	        if (p != null)   // Reviso que la referencia al objeto no sea NULL
 	        { 
-	            p.dibujar(this.entorno);
+	        	p.dibujar(this.entorno);
 	            pep.moverP(this.barras, entorno);                
 	            if (p.getY() > 600) 
 	            {
 	               this.pep = null;             
 	               System.exit(0);
 	            }
-	            if(p.colisionaConBarra(this.barras[9]) || p.colisionaConBarra(this.barras[10]) || p.colisionaConBarra(this.barras[11])) {
-					p.rebotar();
-				}
-				
+	 
 	        }
-	      
-	      //Movimiento y dibujo de Pep y la bola de fuego
-			if (entorno.seLevanto(entorno.TECLA_IZQUIERDA)&& entorno.sePresiono('c')) { 
-				BolaDeFuego.lanzarB(this.entorno);
-				BolaDeFuego.dibujar(this.entorno);
-				BolaDeFuego.mover(this.barras);
-			}
-	}	
+	        // Manejar disparos
+	        Image bolaDeFuego1 = Herramientas.cargarImagen("Imagenes/bolaDeFuego.png");
+	 
+	            if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && (entorno.sePresiono('c') || entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO))) {
+	                // Lanza la bola de fuego hacia la izquierda
+	                bolaDeFuego nuevaBola = new bolaDeFuego(bolaDeFuego1, pep.getX(), pep.getY(), 0.1, 0, 1, 1);
+	                nuevaBola.iniciar(-10); // -10 para moverse a la izquierda
+	                BolasDeFuego[numeroBolas] = nuevaBola;
+	                numeroBolas++;
+	               
+	            }
+	            if (entorno.estaPresionada(entorno.TECLA_DERECHA) && (entorno.sePresiono('c')|| entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO))) {
+	                // Lanza la bola de fuego hacia la derecha
+	                bolaDeFuego nuevaBola = new bolaDeFuego(bolaDeFuego1, pep.getX(), pep.getY(), 0.1, 0, 1, 1);
+	                nuevaBola.iniciar(10); // 10 para moverse a la derecha
+	                BolasDeFuego[numeroBolas] = nuevaBola;
+	                numeroBolas++;
+	                
+	        }
+
+	        // Actualizar y dibujar bolas de fuego     
+	     
+	        for (int i = 0; i < numeroBolas; i++) {
+	            if (BolasDeFuego[i] != null) {
+	                BolasDeFuego[i].dibujar(this.entorno);
+	                BolasDeFuego[i].mover();
+
+	                // Eliminar bolas que salieron de la pantalla
+	                if (BolasDeFuego[i].getX() > 700) {
+	                    BolasDeFuego[i] = null; // Marcar como nula
+	                }
+
+	            }
+	        }
+
+	        // Limpiar nulas y ajustar el array
+	        for (int i = 0; i < numeroBolas; i++) {
+	            if (BolasDeFuego[i] == null) {
+	                // Desplazar bolas a la izquierda
+	                for (int j = i; j < numeroBolas - 1; j++) {
+	                    BolasDeFuego[j] = BolasDeFuego[j + 1];
+	                }
+	                BolasDeFuego[numeroBolas - 1] = null; // Limpiar el último elemento
+	                numeroBolas--; // Reducir el contador
+	                i--; // Volver a verificar el índice actual
+	            }
+	        }
+	        
+	        
+	        
+	        
 	
+	}       
+		
 	
 	@SuppressWarnings("unused")
 	public static void main(String[] args)

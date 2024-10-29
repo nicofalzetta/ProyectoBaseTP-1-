@@ -113,6 +113,13 @@ public class Tortuga{
 	public double getRadio() {
 		return radio;
 	}
+	public double getVelocidad() {
+		return velocidad;
+	}
+	public void velocidadCeroTortuga() {
+		velocidad = 0; 
+	}
+	
 	public boolean colisionTortugaGnomo(Tortuga t, Gnomo g) {
 		// Verifica que g no sea null
 	    if (g == null) {

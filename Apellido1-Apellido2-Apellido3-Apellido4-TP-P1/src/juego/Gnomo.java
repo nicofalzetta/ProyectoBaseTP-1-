@@ -119,6 +119,9 @@ public class Gnomo {
 				 }
 			 }
 		 }
+	 public void velocidadCeroGnomo() {
+			velocidad = 0; 
+		}
 
 	
     // Getters
@@ -134,5 +137,7 @@ public class Gnomo {
     public double getY() {
         return y;
     }
-	
+    public double getVelocidad() {
+		return velocidad;
+	}
 }

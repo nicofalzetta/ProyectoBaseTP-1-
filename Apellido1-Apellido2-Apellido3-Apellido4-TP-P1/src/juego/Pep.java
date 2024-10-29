@@ -82,21 +82,19 @@ public class Pep {
 					//Movimiento de Pep hacia la izquierda o derecha
 					if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
 
-						this.y -= velocidadSalto + velocidad + 30;
+						this.y -= 60;
 					
-
-						this.y -= velocidadSalto + 30;
 						
 
 					}
 				}
 					if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
-						this.x -= velocidad + 1;
+						this.x -= velocidad + 1.5;
 					}
 					
 					
 					if (entorno.estaPresionada(entorno.TECLA_DERECHA)) {
-						this.x += velocidad + 1;
+						this.x += velocidad + 1.5;
 					}
 					
 					
@@ -138,18 +136,6 @@ public class Pep {
 			return false;
 		}
 		
-		public boolean debajobarra(Barra[] barras) {
-			for (Barra barra : barras) {
-				if (barra != null && this.y - 20 >= barra.getY() - barra.getAlto() /2 &&
-						this.y <= barra.getY() + barra.getAlto() / 2 &&
-						this.x + 10 >= barra.getX() - barra.getAncho() / 2 &&
-						this.x - 10 <= barra.getX() + barra.getAncho() / 2) {
-					return true;
-				}
-			}
-			return false;
-		}
-		
 		public boolean colisionPepGnomos(Pep p, Gnomo gnomo) {
 			 // Verifica que ambos objetos no sean nulos
 		    if (p == null || gnomo == null) {
@@ -177,7 +163,9 @@ public class Pep {
    
 		    return distancia < sumaRadios;  // Si la distancia es menor que la suma de los radios, hay colisión
 		}
-		
+		public void velocidadCeroPep() {
+			velocidad = 0; 
+		}
 		
 	}
 		
