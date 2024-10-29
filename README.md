@@ -109,6 +109,49 @@ Invierte la dirección horizontal del gnomo, útil para responder a colisiones.
 
 ### Inicialización de los Gnomos
 En el constructor de `Juego`, inicializamos una lista de gnomos que se instancian de manera aleatoria para crear entre 2 y 4 gnomos en cada inicio del juego.
+
+# `Tortuga`
+
+La clase `Tortuga` representa un personaje en el juego que tiene capacidades de movimiento, visibilidad controlada y detección de colisiones. 
+
+## Atributos
+
+- **`imagen`**: La imagen que representa visualmente la tortuga.
+- **`x`, `y`**: Coordenadas de posición de la tortuga en el entorno.
+- **`velocidad`**: La velocidad a la que la tortuga se mueve en el eje x.
+- **`escala`**: Escala de tamaño de la tortuga en relación con su imagen original.
+- **`direccion`**: Indica la dirección del movimiento: 1 para derecha y -1 para izquierda.
+- **`VELOCIDADES`**: Array que contiene velocidades posibles para cada tortuga.
+- **`RANDOM`**: Genera números aleatorios para asignar una velocidad aleatoria y una posicion incial, en x, a cada tortuga.
+
+## Constructor
+
+### `public Tortuga(Image imagen, double x, double y, double escala, double radio)`
+
+Inicializa una tortuga con su imagen, posición (`y`), escala y una velocidad y una posición ‘x’ aleatoria tomada de sus arrays correspondientes. La dirección inicial se establece aleatoriamente como izquierda o derecha.
+
+## Métodos de Movimiento y Colisión
+
+- ### `boolean estaSobreBarra(Barra[] barras)`
+  
+  Comprueba si la tortuga está sobre alguna de las barras en el array `barras`. Retorna `true` si está sobre una barra, `false` en caso contrario.
+
+- ### `boolean colisionaConBarra(Barra barra)`
+  
+  Verifica si la tortuga está en contacto con una barra específica, lo que se usa para invertir la dirección si colisiona. Retorna `true` en caso de colisión.
+
+- ### `void caer(Barra[] barras)`
+
+  Realiza el movimiento de caída de la tortuga incrementando su posición `y`. Si colisiona con una barra mientras cae, invierte la dirección en `x`.
+
+- ### `void mover(Barra[] barras)`
+
+  Controla el movimiento general de la tortuga. Si no está sobre una barra, la tortuga cae; si está sobre una barra, se mueve horizontalmente en la dirección establecida, y se asegura de no salir de los límites de la barra. Para ello se utiliza un booleano que llamado ‘sobreBarra’ inicializado en ‘false’, de esta manera la tortuga cae hasta colacionar con una barra. Posteriormente se condiciona el movimiento solo dentro de la barra colacionada
+
+## Implementación de la clase en `Juego`
+
+### Inicialización de las Tortugas
+En el constructor de `Juego`, inicializamos una lista de gnomos que se instancian de manera aleatoria para crear tortugas en cada inicio del juego.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # `Texto`
 
