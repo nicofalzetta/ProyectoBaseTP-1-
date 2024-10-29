@@ -109,7 +109,7 @@ Invierte la dirección horizontal del gnomo, útil para responder a colisiones.
 
 ### Inicialización de los Gnomos
 En el constructor de `Juego`, inicializamos una lista de gnomos que se instancian de manera aleatoria para crear entre 2 y 4 gnomos en cada inicio del juego.
-
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # `Texto`
 
 La clase `Texto` representa el texto en pantalla en el juego, el cual nos muestra en tiempo real el tiempo real de juego, un contador con los gnomos salvados por pep, un contador con los gnomos perdidos al caer de la ultima isla y un contador de gnomos eliminados por las tortugas.
@@ -211,44 +211,32 @@ Inicializa el texto en pantalla en la posición (`x` y `y`).
 En el constructor de `Juego`, inicializamos un arreglo con la cantidad de textos para mostrar en pantalla. 
 Texto en pantalla: this.textos = new Texto[11]; y luego a cada arreglo le pasamos los variables de instancia
 con los valores pedidos por el constructor del objeto. this.textos[numero de array] = new Texto("texto",x,y);
-
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # `Casa`
 
-La clase `Texto` representa el texto en pantalla en el juego, el cual nos muestra en tiempo real el tiempo real de juego, un contador con los gnomos salvados por pep, un contador con los gnomos perdidos al caer de la ultima isla y un contador de gnomos eliminados por las tortugas.
+La clase `Casa` representa el objeto casa que aparece en la pantalla del juego, de ella salen los gnomos que van cayendo hacia las islas quie estan por debajo.
 
 ## Atributos
 - **`Texto`**: El texto que se muestra en pantalla.
 - **`x`, `y`**: Coordenadas de posición del texto en el entorno.
+- **`velocidad`**: Define la velocidad de movimiento del gnomo.
+- **`escala`**: Factor de escala que ajusta el tamaño de la imagen.
+- **`angulo`**: Factor de angulo que ajusta el angulo de la imagen.
+
 ## Constructor
 
-### `public Texto(String texto,double x, double y)`
+public Casa(Image imagen, double x, double y, double angulo, double escala,double velocidad)
 
-Inicializa el texto en pantalla en la posición (`x` y `y`).
+ Construye el objeto casa con los valores de instancia que recibe desde la clase juego cuando se lo inicializa desde ella. 
 
 ## Métodos de visivilidad y actualizacion del texto.
 
-- ### `public void dibujarTexto(Entorno entorno)`
-  Nos muestra en pantalla el texto solicitado en la clase juego, pudiendo definir desde este metodo la fuente, el tamaño y el color de la letra.
-
-- ### `public void actualizarNumerodeTiempo(int numero)`
-  Actualiza constantemente el texto en pantalla que controla el tiempo con el nuevo valor numerico pasado como un parametro en la clase juego .
-
-- ### `public void actualizarNumeroPerdidos(int numero) `
-  Actualiza constantemente el texto en pantalla que controla el valor de los gnomos perdidos, con el nuevo valor numerico pasado como un parametro en la clase juego.
-
-- ### `public void actualizarNumerodeEliminados(int numero)`
- Actualiza constantemente el texto en pantalla que controla el valor de los gnomos eliminados por las tortugas, con el nuevo valor numerico pasado como un parametro en la clase juego.
-
-- ### `public void actualizarNumerodeSalvados(int numero)`
- Actualiza constantemente el texto en pantalla que controla el valor de los gnomos salvados por pep, con el nuevo valor numerico pasado como un parametro en la clase juego.
+- ### `public void dibujar(Entorno entorno) `
+  Nos muestra en pantalla la casa inicializada en la clase juego.
 
 ## Implementación de la clase en `Juego`
 
 ### Inicialización de Texto
-En el constructor de `Juego`, inicializamos un arreglo con la cantidad de textos para mostrar en pantalla. 
-Texto en pantalla: this.textos = new Texto[11]; y luego a cada arreglo le pasamos los variables de instancia
-con los valores pedidos por el constructor del objeto. this.textos[numero de array] = new Texto("texto",x,y);
-
-		
+En el constructor de `Juego`, inicializamos el objeto casa y le damos los parametros necesarios que cumplan con el constructor previamente creado. 		
   
   
