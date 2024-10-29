@@ -63,35 +63,42 @@ public class bolaDeFuego {
 			this.velocidad = velocidad;
 		}
 				
-				public void dibujar(Entorno entorno) {
+		public void dibujar(Entorno entorno) {
 					entorno.dibujarImagen(this.imagen,this.x,this.y,this.angulo,this.escala);
-				}
+		}
 			 
-			public boolean lanzarB(Entorno entorno) {
-				if (entorno.seLevanto(entorno.TECLA_IZQUIERDA)&& entorno.sePresiono('c')) {
-					iniciar(10);
-					return true;
+	    public boolean lanzarB(Entorno entorno) {
+				
+	    	if (entorno.seLevanto(entorno.TECLA_IZQUIERDA)&& entorno.sePresiono('c')) {
 					
-					}
-				if (entorno.seLevanto(entorno.TECLA_DERECHA)&& entorno.sePresiono('c')) {
-					iniciar(-10);
-					return true;}
-			 return false;
+	    		iniciar(10);
+					
+	    		return true;
+					
 			}
-		    public boolean colisionBoladeFuegoTortuga(bolaDeFuego f, Tortuga t) {
-				// Verifica que g no sea null
-			    if (f == null) {
+				
+	    	if (entorno.seLevanto(entorno.TECLA_DERECHA)&& entorno.sePresiono('c')) {
+					
+	    		iniciar(-10);
+					
+	    		return true;}
+			 
+	    	return false;
+			}
+		public boolean colisionBoladeFuegoTortuga(bolaDeFuego f, Tortuga t) {
+			
+						    
+			if (f == null) {// Verifica que g no sea null
 			        return false; // No hay colisión si el gnomo es null
 			    }
-			    // Calcula la distancia entre los centros
-			    double deltaX = f.getX() - t.getX();
-			    double deltaY = f.getY() - t.getY();
-			    double distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-			    // Suma de los radios
-			    double sumaRadios = f.getRadio() + t.getRadio();
+			   // Calcula la distancia entre los centros
+			   double deltaX = f.getX() - t.getX();
+			   double deltaY = f.getY() - t.getY();
+			   double distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+			   
+			   double sumaRadios = f.getRadio() + t.getRadio();     // Suma de los radios
 
 			    // Si la distancia es menor que la suma de los radios, hay colisión
 			    return distancia < sumaRadios;
-		    }
+		   }
 	}

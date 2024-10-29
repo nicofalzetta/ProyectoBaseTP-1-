@@ -73,19 +73,14 @@ public class Pep {
 		
 	}
 	//Para el movimiento de Pep
-			public void moverP(Barra[] barras,Entorno entorno) {
-				//Verifica si esta sobre una barra, sino lo esta, cae
-				if (!this.estaSobreBarra(barras)) {
+	public void moverP(Barra[] barras,Entorno entorno) {	
+				
+		if (!this.estaSobreBarra(barras)) {   //Verifica si esta sobre una barra, sino lo esta, cae
 					caer(barras);
 				}
-				else {
-					//Movimiento de Pep hacia la izquierda o derecha
-					if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
-
+				else {					
+					if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {  //Movimiento de Pep hacia la izquierda o derecha
 						this.y -= 60;
-					
-						
-
 					}
 				}
 					if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
@@ -100,8 +95,8 @@ public class Pep {
 					
 }
 				
-		//Verifica la colision con una barra
-		public boolean colisionaConBarra(Barra barra) {
+	//Verifica la colision con una barra
+	public boolean colisionaConBarra(Barra barra) {
 			return(this.x > barra.getX() - barra.getAncho() / 2 &&
 					this.x < barra.getX() + barra.getAncho() / 2 &&
 					this.y + 20 >= barra.getY() - barra.getAlto() / 2 &&
@@ -110,58 +105,62 @@ public class Pep {
 		
 		
 			
-		public void caer(Barra[] barras) {
+	public void caer(Barra[] barras) {
 			this.y += 2;
 		
 		}
 	//dibuja la imagen de Pep
-		public void dibujar(Entorno entorno) {
+	public void dibujar(Entorno entorno) {
 			entorno.dibujarImagen(this.imagen,this.x,this.y,this.angulo,this.escala);
 		}
 		
-		public void rebotar() {
+	public void rebotar() {
 			this.velocidad = this.velocidad * (-1);
-		}
+	}
 		
 		//Metodo para verificar si pep esta sobre una barra
-		public boolean estaSobreBarra(Barra[] barras) {
-			for (Barra barra : barras) {
-				if (barra != null && this.y + 20 >= barra.getY() - barra.getAlto() /2 &&
-						this.y <= barra.getY() + barra.getAlto() / 2 &&
-						this.x + 10 >= barra.getX() - barra.getAncho() / 2 &&
-						this.x - 10 <= barra.getX() + barra.getAncho() / 2) {
-					return true;
+	public boolean estaSobreBarra(Barra[] barras) {		
+		for (Barra barra : barras) {	
+			if (barra != null && this.y + 20 >= barra.getY() - barra.getAlto() /2 &&
+						
+					this.y <= barra.getY() + barra.getAlto() / 2 &&						
+					this.x + 10 >= barra.getX() - barra.getAncho() / 2 &&						
+					this.x - 10 <= barra.getX() + barra.getAncho() / 2) {
+					
+				return true;
 				}
 			}
 			return false;
 		}
 		
-		public boolean colisionPepGnomos(Pep p, Gnomo gnomo) {
-			 // Verifica que ambos objetos no sean nulos
-		    if (p == null || gnomo == null) {
-		        return false; // No hay colisión si alguno es nulo
+	public boolean colisionPepGnomos(Pep p, Gnomo gnomo) {
+			 
+		    
+		if (p == null || gnomo == null) {                 // Verifica que ambos objetos no sean nulos.
+		        
+			return false; // No hay colisión si alguno es nulo.
 		    }
-		    // Calcula la distancia entre los centros
-		    double deltaX = p.getX() - gnomo.getX();
-		    double deltaY = p.getY() - gnomo.getY();
-		    double distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+		    // Calcula la distancia entre los centros.
+		    
+		double deltaX = p.getX() - gnomo.getX();		    
+		double deltaY = p.getY() - gnomo.getY();		    
+		double distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-		    // Suma de los radios
-		    double sumaRadios = p.getRadio() + gnomo.getRadio();
-   
-		    return distancia < sumaRadios;  // Si la distancia es menor que la suma de los radios, hay colisión
-		}
-		
+		// Suma de los radios
+		    
+		double sumaRadios = p.getRadio() + gnomo.getRadio();	    
+		return distancia < sumaRadios;  // Si la distancia es menor que la suma de los radios, hay colisión.
+		}		
 		public boolean colisionPepTortugas(Pep p, Tortuga t) {
-		    // Calcula la distancia entre los centros
+		    // Calcula la distancia entre los centros.
 		    double deltaX = p.getX() - t.getX();
 		    double deltaY = p.getY() - t.getY();
 		    double distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
+		    
 		    // Suma de los radios
 		    double sumaRadios = p.getRadio() + t.getRadio();
    
-		    return distancia < sumaRadios;  // Si la distancia es menor que la suma de los radios, hay colisión
+		    return distancia < sumaRadios;  // Si la distancia es menor que la suma de los radios, hay colisión.
 		}
 		public void velocidadCeroPep() {
 			velocidad = 0; 
