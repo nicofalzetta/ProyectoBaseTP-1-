@@ -4,7 +4,7 @@ import java.awt.Image;
 
 import entorno.Entorno;
 
-public class Casa {
+public class Imagen {
 	
 		private Image imagen;
 		private double x;
@@ -14,7 +14,7 @@ public class Casa {
 		private double velocidad;
 	
 	
-	public Casa(Image imagen, double x, double y, double angulo, double escala,double velocidad) {
+	public Imagen(Image imagen, double x, double y, double angulo, double escala,double velocidad) {
 		this.imagen = imagen;
 		this.x = x;
 		this.y = y;

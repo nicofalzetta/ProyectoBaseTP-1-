@@ -1,5 +1,6 @@
 package juego;
 
+import java.awt.Color;
 import java.awt.Image;
 import entorno.Entorno;
 import java.util.List;
@@ -13,7 +14,7 @@ public class Juego extends InterfaceJuego
 	private Entorno entorno;
 	
 	// Variables y métodos propios de cada grupo
-	private Isla[] islas;
+	private Imagen[] islas;
 	private Barra[] barras;
 	private Gnomo[] gnomos;
 	private Texto[] textos;
@@ -21,14 +22,16 @@ public class Juego extends InterfaceJuego
     private int numeroBolas; // Contador de bolas de fuego activas
     private final int MAX_BOLAS = 10; // Número máximo de bolas de fuego
 	
-	private Casa casa;
-	private Paisaje paisaje;
+	private Imagen casa;
+	private Imagen paisaje;
 	private Pep pep;
-	private List<Tortuga> tortugas;
 	
 	private int contadorGnomosPerdidos = 0;
 	private int contadorGnomosSalvados = 0;
 	private int contadorGnomosEliminados = 0;
+	
+	private ArrayList<Tortuga> tortugas;
+	private ArrayList<bolaDeFuego> bolasDeFuego = new ArrayList<>();
 	
 	Juego()
 	{
@@ -46,11 +49,11 @@ public class Juego extends InterfaceJuego
 		
 		//Paisaje de Fondo:
 		
-		this.paisaje = new Paisaje(paisaje,350,350,0,0.22);
+		this.paisaje = new Imagen(paisaje,350,350,0,0.22, 0);
 		
 		//texto en pantalla:
 		
-		this.textos = new Texto[12];
+		this.textos = new Texto[14];
 		
 		//Contador de tiempo:
 		
@@ -68,57 +71,75 @@ public class Juego extends InterfaceJuego
 		//Gnomos Eliminados:
 		this.textos[9] = new Texto("Eliminados:",680,20); 
 		this.textos[10] = new Texto("0",760,20);
-		this.textos[11] = new Texto("Game Over",400,300);
+		//Final del Juego:
+		this.textos[11] = new Texto("FELICIDADES A GANADO",100,320);
+		this.textos[12] = new Texto("GAME OVER",150,310);
+		
 		//Casa sobre las islas:
 		
-		this.casa = new Casa(casa,400,60,0,0.02,0.0);
+		this.casa = new Imagen(casa,400,30,0,0.015,0.0);
         
 		//Barras debajo de las Islas.
 		
-		this.barras = new Barra[15];  //Array Barras
+		this.barras = new Barra[21];  //Array Barras
+
 		//Primera Fila:
-		this.barras[0] = new Barra(100,530,121,21, 0);
-		this.barras[1] = new Barra(250,530,121,21, 0);
-		this.barras[2] = new Barra(400,530,121,21, 0);
-		this.barras[3] = new Barra(550,530,121,21, 0);
-		this.barras[4] = new Barra(700,530,121,21, 0);
+		this.barras[0] = new Barra(400,70,110,24, 0);
 		//Segunda Fila:
-		this.barras[5] = new Barra(150,430,130,24, 0);
-		this.barras[6] = new Barra(320,430,130,24, 0);
-		this.barras[7] = new Barra(490,430,130,24, 0);
-		this.barras[8] = new Barra(660,430,130,24, 0);
+		this.barras[1] = new Barra(300,120,100,26, 0);
+		this.barras[2] = new Barra(500,120,100,26, 0);
 		//Tercera Fila:
-		this.barras[9]  = new Barra(200,310,150,20, 0);
-		this.barras[10] = new Barra(400,310,150,20, 0);
-		this.barras[11] = new Barra(600,310,150,20, 0);
+		this.barras[3]  = new Barra(250,210,90,20, 0);
+		this.barras[4] = new Barra(400,210,90,20, 0);
+		this.barras[5] = new Barra(550,210,90,20, 0);
 		//Cuarta Fila:
-		this.barras[12] = new Barra(300,200,150,26, 0);
-		this.barras[13] = new Barra(500,200,150,26, 0);
+		this.barras[6] = new Barra(170,330,90,21, 0);
+		this.barras[7] = new Barra(320,330,90,21, 0);
+		this.barras[8] = new Barra(510,330,90,21, 0);
+		this.barras[9] = new Barra(670,330,90,21, 0);		
 		//Quinta Fila:
-		this.barras[14] = new Barra(400,100,150,26, 0);
-		
+		this.barras[10] = new Barra(100,430,90,21, 0);
+		this.barras[11] = new Barra(250,430,90,21, 0);
+		this.barras[12] = new Barra(400,430,90,21, 0);
+		this.barras[13] = new Barra(550,430,90,21, 0);
+		this.barras[14] = new Barra(700,430,90,21, 0);
+		//Sexta Fila:
+		this.barras[15] = new Barra(40,530,90,21, 0);
+		this.barras[16] = new Barra(180,530,90,21, 0);
+		this.barras[17] = new Barra(320,530,90,21, 0);
+		this.barras[18] = new Barra(460,530,90,21, 0);
+		this.barras[19] = new Barra(600,530,90,21, 0);
+		this.barras[20] = new Barra(740,530,90,21, 0);
+
 		//Islas:
-		this.islas = new Isla[20];    //Array Islas.
+		this.islas = new Imagen[21];    //Array Islas.
 		//Primera Fila:
-		this.islas[0] = new Isla(ImagenIsla,100,530,0,0.18, 0);
-		this.islas[1] = new Isla(ImagenIsla,250,530,0,0.18, 0);
-		this.islas[2] = new Isla(ImagenIsla,400,530,0,0.18, 0);
-		this.islas[3] = new Isla(ImagenIsla,550,530,0,0.18, 0);
-		this.islas[4] = new Isla(ImagenIsla,700,530,0,0.18, 0);
+		this.islas[0] = new Imagen(ImagenIsla,400,70,0,0.18, 0.0);
 		//Segunda Fila:
-		this.islas[5] = new Isla(ImagenIsla,150,430,0,0.19, 0);
-		this.islas[6] = new Isla(ImagenIsla,320,430,0,0.19, 0);
-		this.islas[7] = new Isla(ImagenIsla,490,430,0,0.19, 0);
-		this.islas[8] = new Isla(ImagenIsla,660,430,0,0.19, 0);
+		this.islas[1] = new Imagen(ImagenIsla,300,120,0,0.16, 0.0);
+		this.islas[2] = new Imagen(ImagenIsla,500,120,0,0.16, 0.0);
 		//Tercera Fila:
-		this.islas[9]  = new Isla(ImagenIsla,200,310,0,0.22, 0);
-		this.islas[10] = new Isla(ImagenIsla,400,310,0,0.22, 0);
-		this.islas[11] = new Isla(ImagenIsla,600,310,0,0.22, 0);
+		this.islas[3] = new Imagen(ImagenIsla,250,210,0,0.16, 0);
+		this.islas[4] = new Imagen(ImagenIsla,400,210,0,0.16, 0);
+		this.islas[5] = new Imagen(ImagenIsla,550,210,0,0.16, 0);
 		//Cuarta Fila:
-		this.islas[12] = new Isla(ImagenIsla,300,200,0,0.23, 0.0);
-		this.islas[13] = new Isla(ImagenIsla,500,200,0,0.23, 0.0);
+		this.islas[6] = new Imagen(ImagenIsla,170,330,0,0.14, 0);
+		this.islas[7] = new Imagen(ImagenIsla,320,330,0,0.14, 0);
+		this.islas[8] = new Imagen(ImagenIsla,510,330,0,0.14, 0);
+		this.islas[9] = new Imagen(ImagenIsla,670,330,0,0.14, 0);
 		//Quinta Fila:
-		this.islas[14] = new Isla(ImagenIsla,400,100,0,0.22, 0.0);
+		this.islas[10] = new Imagen(ImagenIsla,100,430,0,0.14, 0);
+		this.islas[11] = new Imagen(ImagenIsla,250,430,0,0.14, 0);
+		this.islas[12] = new Imagen(ImagenIsla,400,430,0,0.14, 0);
+		this.islas[13] = new Imagen(ImagenIsla,550,430,0,0.14, 0);
+		this.islas[14] = new Imagen(ImagenIsla,700,430,0,0.14, 0);
+		//Sexta Fila:
+		this.islas[15] = new Imagen(ImagenIsla,40,530,0,0.14, 0);
+		this.islas[16] = new Imagen(ImagenIsla,180,530,0,0.14, 0);
+		this.islas[17] = new Imagen(ImagenIsla,320,530,0,0.14, 0);
+		this.islas[18] = new Imagen(ImagenIsla,460,530,0,0.14, 0);
+		this.islas[19] = new Imagen(ImagenIsla,600,530,0,0.14, 0);
+		this.islas[20] = new Imagen(ImagenIsla,740,530,0,0.14, 0);
 		
 		
 		// Inicialización de gnomos
@@ -128,20 +149,20 @@ public class Juego extends InterfaceJuego
 		        
 		for (int i = 0; i < numeroDeGnomos; i++) {
 		  double y = 50; 
-		  double escala = 0.04;
-		  double radio = 1;
+		  double escala = 0.03;
+		  double radio = 5;
 		  gnomos[i] = new Gnomo(Gnomo, y, escala,radio); // Inicializar cada gnomo
 	}
 		
 		//Inicializacion de la Tortuga
 		this.tortugas = new ArrayList<>();
-		int numeroDeTortugas = (int) (Math.random() * 3) + 2;
+		int numeroDeTortugas = (int) (Math.random() * 3) + 3;
 		for(int i = 0; i < numeroDeTortugas; i++) {
-			Tortuga tortuga = new Tortuga(Tortuga,100,0.1,1);
+			Tortuga tortuga = new Tortuga(Tortuga,0,0.1,5);
 			this.tortugas.add(tortuga);		
-		}
+	    }
 		//Inicio Pep
-		this.pep = new Pep(Pep,100,500,0,0.1,1);
+		this.pep = new Pep(Pep,50,500,0,0.12,5);
 		
 		//Inicio BolaDeFuego
 		BolasDeFuego = new bolaDeFuego[MAX_BOLAS];
@@ -161,92 +182,29 @@ public class Juego extends InterfaceJuego
 	{
 		//Imagen de Fondo:
 	    this.paisaje.dibujar(this.entorno);
-	 
-	 	//Movimiento de la barra:
-		
-		//barras Inferirores
-		for(int i = 0; i < this.barras.length-3; i++) 
-		{
+	    //Dibuja la Casa de los Gnomos:
+	  	this.casa.dibujar(this.entorno);
+	 	//Barras debajo de las islas:
+		for(int i = 0; i < this.barras.length; i++) {
 		    Barra b = this.barras[i];
-			if(b != null) 
-			{ // Reviso que la referencia al objeto no sea NULL
-				b.dibujar(this.entorno);
-		    }
-		}	
-		//barras Superiores:
-		
-		for(int i = 12; i < this.barras.length; i++) 
-		 {
-		    Barra b = this.barras[i];
-			if(b != null) 
-			{ // Reviso que la referencia al objeto no sea NULL
-				b.dibujar(this.entorno);
-				b.mover();
-			  if(b.getX() - b.getAncho() < 100)
-			     {
-			    	b.rebotarderecha();
-			     }
-			  if(b.getX() - b.getAncho()  > 700) 
-			     {
-					b.rebotarizquierda();
-			     }		
+			if(b != null) { // Reviso que la referencia al objeto no sea NULL
+				b.dibujar(this.entorno);	
 			}
 		 }
-		//Dibuja la Casa de los Gnomos:
-		this.casa.dibujar(this.entorno);	
-
-		//Dibujo y Movimiento de la Isla:
-		//Islas Inferirores
-		for(int i = 0; i < this.islas.length-3; i++) 
-		{
-		    Isla p = this.islas[i];
+		//Islas:
+		for(int i = 0; i < this.islas.length; i++) {
+		    Imagen p = this.islas[i];
 			if(p != null)            // Reviso que la referencia al objeto no sea NULL
 			{ 
 				p.dibujar(this.entorno);
 			}
 		}	
-		//Islas Superiores:
-		
-		for(int i = 12; i < this.islas.length; i++) 
-		{
-		    Isla p = this.islas[i];
-			if(p != null) 
-			{           // Reviso que la referencia al objeto no sea NULL
-				p.dibujar(this.entorno);
-				p.mover();
-				
-				if(p.getX() - p.getEscala() < 100) 
-				{
-					p.rebotarderecha();
-				}
-				if(p.getX() - p.getEscala()  > 700) 
-				{
-					p.rebotarizquierda();
-				}
-			}
-		}
-		
-		//Movimiento de las casa
-		Casa c = this.casa;
-		if(c != null) 
-		{ // Reviso que la referencia al objeto no sea NULL
-			c.dibujar(this.entorno);
-			c.mover();	
-		  if(c.getX() - c.getEscala() < 100) 
-		  {
-			c.rebotarderecha();
-		  }
-		  if(c.getX() - c.getEscala()  > 700) 
-		  {
-					c.rebotarizquierda();
-		  }	
-		}
+			
 		
 		// Eliminar gnomos nulos si es necesario
 	 	Image imagenGnomo = Herramientas.cargarImagen("imagenes/gnomo.png");
 	    for (int i = 0; i < gnomos.length; i++) {
-	        if (gnomos[i] == null) {
-	            
+	        if (gnomos[i] == null) {   
 	            double x = 400; 
 	            double y = 50;
 	            double escala = 0.04;
@@ -254,8 +212,6 @@ public class Juego extends InterfaceJuego
 	            gnomos[i] = new Gnomo(imagenGnomo, y, escala,radio); 
 	        }
 	    }
-	    
-	    
 		//Contadores en Pantalla:
 		//Tiempo del juego:
 
@@ -303,10 +259,8 @@ public class Juego extends InterfaceJuego
 						otroGnomo.invertirDireccion();
 					}
 				}
-			}
-		}
-		
-		
+			 }
+		  }
 		//Gnomos Perdidos:
 				for (int i = 0; i < gnomos.length; i++) {
 				    Gnomo gnomo = gnomos[i];
@@ -354,45 +308,37 @@ public class Juego extends InterfaceJuego
 
 			     // Actualiza el texto del contador de gnomos salvados fuera del bucle
 			     textos[8].actualizarNumerodeSalvados(contadorGnomosSalvados);
-			   
-	        
-			  // Gnomos Eliminados:
-			    
-			     textos[9].dibujarTexto(this.entorno);      // Dibuja el texto de "Gnomos Eliminados" en pantalla.
+			 
+			     // Gnomos Eliminados:     
+			     textos[9].dibujarTexto(this.entorno);      // Dibuja el texto de "Gnomos Eliminados" en pantalla. 
 			     textos[10].dibujarTexto(entorno);          // Dibuja el contador actualizado.
-
+			     
 			     // Movimiento y dibujo de las tortugas
 			     for (Tortuga tortuga : tortugas) {
-			    	 
-			    	 tortuga.dibujar(this.entorno);
-		    		 tortuga.mover(this.barras);
-
-			         for (int i = 0; i < gnomos.length; i++) {
-			             Gnomo gnomo = gnomos[i];
-			             
-			             // Verifica que el gnomo no sea null antes de chequear la colisión
-			         if (gnomo != null && tortuga.colisionTortugaGnomo(tortuga, gnomo)) { 
+				 tortuga.dibujar(this.entorno);	 
+				 tortuga.mover(this.barras);    
+				 for (int i = 0; i < gnomos.length; i++) {    
+					 Gnomo gnomo = gnomos[i];  
+					 // Verifica que el gnomo no sea null antes de chequear la colisión			       
+					 if (gnomo != null && tortuga.colisionTortugaGnomo(tortuga, gnomo)) { 
 			           	 contadorGnomosEliminados++; // Incrementa el contador al eliminar un gnomo
 			             gnomos[i] = null; // Elimina el gnomo estableciendo su posición como null
 			         }
-			        	
-			         
 			         if (pep.colisionPepTortugas(pep, tortuga)){
 			        	 for (Tortuga tortuga1 : tortugas) {
 			        	 tortuga1.velocidadCeroTortuga();
 			        	 }
 			             gnomo.velocidadCeroGnomo();
 			        	 pep.velocidadCeroPep();
-			        	 textos[11].dibujarTexto(this.entorno);
-			         } 
+			        	 textos[12].dibujarTextoPerder(this.entorno);
+			        	 entorno.removeAll();        	 
+			         }
 			        	               
-			         }  
-			          	
-				        
+			         }        
 			     }                                 
 			     textos[10].actualizarNumero(contadorGnomosEliminados);  // Actualiza el texto del contador  
 
-			//Movimiento y dibujo de Pep
+			//Movimiento, dibujo de Pep y final del juego.
 	        Pep p = this.pep;
 	        if (p != null)   // Reviso que la referencia al objeto no sea NULL
 	        { 
@@ -401,65 +347,60 @@ public class Juego extends InterfaceJuego
 	            if (p.getY() > 600) 
 	            {
 	               this.pep = null;             
-	               System.exit(0);
+	               textos[12].dibujarTextoPerder(this.entorno);
+		           entorno.removeAll();
 	            }
+	            if(contadorGnomosSalvados == 10) {
+	            	textos[11].dibujarTextoGanar(this.entorno);
+			        entorno.removeAll();
+	            }
+	            if(contadorGnomosPerdidos == 10  || contadorGnomosEliminados == 10 ) {
+	            	textos[12].dibujarTextoGanar(this.entorno);
+			        entorno.removeAll();
+	            }
+	            
 	 
 	        }
 	        // Manejar disparos
 	        Image bolaDeFuego1 = Herramientas.cargarImagen("Imagenes/bolaDeFuego.png");
-	 
-	            if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && (entorno.sePresiono('c') || entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO))) {
-	                // Lanza la bola de fuego hacia la izquierda
-	                bolaDeFuego nuevaBola = new bolaDeFuego(bolaDeFuego1, pep.getX(), pep.getY(), 0.1, 0, 1, 1);
-	                nuevaBola.iniciar(-10); // -10 para moverse a la izquierda
-	                BolasDeFuego[numeroBolas] = nuevaBola;
-	                numeroBolas++;
-	               
-	            }
-	            if (entorno.estaPresionada(entorno.TECLA_DERECHA) && (entorno.sePresiono('c')|| entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO))) {
-	                // Lanza la bola de fuego hacia la derecha
-	                bolaDeFuego nuevaBola = new bolaDeFuego(bolaDeFuego1, pep.getX(), pep.getY(), 0.1, 0, 1, 1);
-	                nuevaBola.iniciar(10); // 10 para moverse a la derecha
-	                BolasDeFuego[numeroBolas] = nuevaBola;
-	                numeroBolas++;
-	                
+	        // Crear y lanzar bolas de fuego según la dirección
+	        if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && (entorno.sePresiono('c') || entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO))) {
+	            bolaDeFuego nuevaBola = new bolaDeFuego(Herramientas.cargarImagen("Imagenes/bolaDeFuego.png"), pep.getX(), pep.getY(), 0.1, 0, 1, 5);
+	            nuevaBola.iniciar(-10); // Mover a la izquierda
+	            bolasDeFuego.add(nuevaBola);
+	        } else if (entorno.estaPresionada(entorno.TECLA_DERECHA) && (entorno.sePresiono('c') || entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO))) {
+	            bolaDeFuego nuevaBola = new bolaDeFuego(Herramientas.cargarImagen("Imagenes/bolaDeFuego.png"), pep.getX(), pep.getY(), 0.1, 0, 1, 5);
+	            nuevaBola.iniciar(10); // Mover a la derecha
+	            bolasDeFuego.add(nuevaBola);
 	        }
 
-	        // Actualizar y dibujar bolas de fuego     
-	     
-	        for (int i = 0; i < numeroBolas; i++) {
-	            if (BolasDeFuego[i] != null) {
-	                BolasDeFuego[i].dibujar(this.entorno);
-	                BolasDeFuego[i].mover();
+	        // Dibujar, mover, y manejar colisiones de bolas de fuego
+	        for (int i = 0; i < bolasDeFuego.size(); i++) {
+	            bolaDeFuego bola = bolasDeFuego.get(i);
+	            bola.dibujar(entorno);
+	            bola.mover();
 
-	                // Eliminar bolas que salieron de la pantalla
-	                if (BolasDeFuego[i].getX() > 700) {
-	                    BolasDeFuego[i] = null; // Marcar como nula
+	            // Verificar colisiones con cada tortuga
+	            for (Tortuga tortuga : tortugas) {
+	                if (bola.colisionBoladeFuegoTortuga(bola, tortuga)) {
+	                    // Reubicar la tortuga de forma aleatoria
+	                    tortuga.setX(50 + Math.random() * 600); // Ajusta el rango según el ancho del entorno
+	                    tortuga.setY(50 + Math.random() * 400); // Ajusta el rango según la altura del entorno
+
+	                    // Eliminar la bola de fuego tras la colisión
+	                    bolasDeFuego.remove(i);
+	                    i--; // Ajustar el índice tras la eliminación
+	                    break; // Salir del bucle de tortugas
 	                }
+	            }
 
+	            // Eliminar bolas que salieron de la pantalla
+	            if (bola.getX() > 800 || bola.getX() < 0) { // Ajustar límites según el entorno
+	                bolasDeFuego.remove(i);
+	                i--; // Ajustar índice tras eliminación
 	            }
 	        }
-
-	        // Limpiar nulas y ajustar el array
-	        for (int i = 0; i < numeroBolas; i++) {
-	            if (BolasDeFuego[i] == null) {
-	                // Desplazar bolas a la izquierda
-	                for (int j = i; j < numeroBolas - 1; j++) {
-	                    BolasDeFuego[j] = BolasDeFuego[j + 1];
-	                }
-	                BolasDeFuego[numeroBolas - 1] = null; // Limpiar el último elemento
-	                numeroBolas--; // Reducir el contador
-	                i--; // Volver a verificar el índice actual
-	            }
-	        }
-	        
-	        
-	        
-	        
-	
-	}       
-		
-	
+	    }	
 	@SuppressWarnings("unused")
 	public static void main(String[] args)
 	{
